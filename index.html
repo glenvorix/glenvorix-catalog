@@ -8,7 +8,7 @@
     :root {
       --primary: #25D366;
       --primary-dark: #1da851;
-      --brand-blue: #1e40af;
+      --brand-blue: #0056b3;
       --text: #1f2937;
       --bg: #f9fafb;
       --card-bg: #ffffff;
@@ -52,23 +52,29 @@
     }
 
     .brand-logo {
-      height: 52px;
+      height: 56px;
       width: auto;
       object-fit: contain;
+      border-radius: 6px;
     }
 
     .brand-title {
-      font-size: 1.85rem;
+      font-size: 2rem;
       font-weight: 800;
-      color: var(--brand-blue);
+      color: blue;
       line-height: 1.1;
+      letter-spacing: 0.5px;
     }
 
     .brand-tagline {
-      font-size: 0.85rem;
-      color: #6b7280;
-      font-weight: 500;
-      margin-top: 0.2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-style: italic;
+      /* Colorful gradient text */
+      background: linear-gradient(90deg, #ff007a, #7928ca, #0070f3, #25D366);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 0.3rem;
     }
 
     .contact-info {
@@ -115,7 +121,7 @@
 
     .card img {
       width: 100%;
-      height: 220px;
+      height: 230px;
       object-fit: cover;
       background-color: #f3f4f6;
     }
@@ -191,7 +197,7 @@
   <div class="container">
     <header>
       <div class="brand-section">
-        <img src="logo.JPEG" alt="Glenvorix Logo" class="brand-logo" />
+        <img src="logo.jpeg" alt="Glenvorix Logo" class="brand-logo" onerror="this.src='logo.jpg'" />
         <div>
           <h1 class="brand-title" style="color: blue;">GLENVORIX</h1>
           <p class="brand-tagline">Where Everyday Essentials Meet Modern Living</p>
@@ -219,21 +225,21 @@
         name: "Size - S",
         specification: "Dimension: 17x19",
         price: "Rs 40",
-        image: "ImageS.JPG"
+        image: "ImageS.jpg"
       },
       {
         id: 2,
         name: "Size - M",
         specification: "Dimension: 19x21",
         price: "Rs 50",
-        image: "ImageM.JPG"
+        image: "ImageM.jpg"
       },
       {
         id: 3,
         name: "Size - L",
         specification: "Dimension: 24x32",
         price: "Rs 65",
-        image: "ImageL.JPG"
+        image: "ImageL.jpg"
       }
     ];
 
