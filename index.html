@@ -177,6 +177,179 @@
       background-color: var(--primary-dark);
     }
 
+    .card {
+      cursor: pointer;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+      position: relative;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--primary);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .image-gallery {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      background-color: #f3f4f6;
+    }
+
+    .gallery-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .gallery-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+
+    .gallery-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .gallery-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .image-counter {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .product-details {
+      margin-bottom: 1.5rem;
+    }
+
+    .product-details p {
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+      color: #4b5563;
+    }
+
+    .product-details .price {
+      font-size: 1.5rem;
+      color: #111827;
+      margin-top: 1rem;
+    }
+
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-modal {
+      flex: 1;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .btn-order {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-order:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-close-modal {
+      background-color: #e5e7eb;
+      color: var(--text);
+    }
+
+    .btn-close-modal:hover {
+      background-color: #d1d5db;
+    }
+
     @media (max-width: 640px) {
       header {
         flex-direction: column;
@@ -188,6 +361,18 @@
       }
       .contact-info {
         align-items: center;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+
+      .gallery-image {
+        height: 300px;
+      }
+
+      .modal-footer {
+        flex-direction: column;
       }
     }
   </style>
@@ -216,6 +401,34 @@
     <div class="grid" id="productGrid"></div>
   </div>
 
+  <!-- Modal for Product Gallery -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalProductName"></h2>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="image-gallery">
+          <img id="modalImage" class="gallery-image" src="" alt="Product Image" />
+          <div class="gallery-controls">
+            <button class="gallery-btn" id="prevBtn">← Previous</button>
+            <span class="image-counter"><span id="currentImageIndex">1</span> / <span id="totalImages">1</span></span>
+            <button class="gallery-btn" id="nextBtn">Next →</button>
+          </div>
+        </div>
+        <div class="product-details">
+          <p id="modalSpecification"></p>
+          <span class="price" id="modalPrice"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal btn-order" id="modalOrderBtn">Order on WhatsApp</button>
+        <button class="btn-modal btn-close-modal" id="modalCloseBottom">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const WHATSAPP_PHONE = "918805442774";
 
@@ -225,26 +438,42 @@
         name: "Size - S",
         specification: "Dimension: 17x19",
         price: "Rs 40",
-        image: "ImageS.jpg"
+        images: ["small-bag.jpeg", "ImageS.jpg"]
       },
       {
         id: 2,
         name: "Size - M",
         specification: "Dimension: 19x21",
         price: "Rs 50",
-        image: "ImageM.jpg"
+        images: ["medium-bag.jpeg", "ImageM.jpg"]
       },
       {
         id: 3,
         name: "Size - L",
         specification: "Dimension: 24x32",
         price: "Rs 65",
-        image: "ImageL.jpg"
+        images: ["large-bag.jpeg", "ImageL.jpg"]
       }
     ];
 
     const grid = document.getElementById("productGrid");
+    const modal = document.getElementById("productModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalProductName = document.getElementById("modalProductName");
+    const modalSpecification = document.getElementById("modalSpecification");
+    const modalPrice = document.getElementById("modalPrice");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const currentImageIndex = document.getElementById("currentImageIndex");
+    const totalImages = document.getElementById("totalImages");
+    const modalOrderBtn = document.getElementById("modalOrderBtn");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+    const modalCloseBottom = document.getElementById("modalCloseBottom");
 
+    let currentProduct = null;
+    let currentImageIdx = 0;
+
+    // Create product cards
     products.forEach((product) => {
       const message = `Hello Glenvorix! I would like to order:\n- *Item:* ${product.name}\n- *Specification:* ${product.specification}\n- *Price:* ${product.price}`;
       const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
@@ -252,7 +481,7 @@
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+        <img src="${product.images[0]}" alt="${product.name}" loading="lazy" />
         <div class="card-body">
           <div class="card-title">${product.name}</div>
           <div class="card-desc">${product.specification}</div>
@@ -264,7 +493,86 @@
           </div>
         </div>
       `;
+
+      // Add click event to open modal
+      card.addEventListener("click", (e) => {
+        // Don't open modal if WhatsApp link is clicked
+        if (e.target.closest(".btn-whatsapp")) {
+          return;
+        }
+        openProductModal(product);
+      });
+
       grid.appendChild(card);
+    });
+
+    // Modal functions
+    function openProductModal(product) {
+      currentProduct = product;
+      currentImageIdx = 0;
+      updateModalContent();
+      modal.classList.add("active");
+    }
+
+    function closeProductModal() {
+      modal.classList.remove("active");
+      currentProduct = null;
+      currentImageIdx = 0;
+    }
+
+    function updateModalContent() {
+      if (!currentProduct) return;
+
+      modalProductName.textContent = currentProduct.name;
+      modalSpecification.textContent = currentProduct.specification;
+      modalPrice.textContent = currentProduct.price;
+      modalImage.src = currentProduct.images[currentImageIdx];
+      
+      currentImageIndex.textContent = currentImageIdx + 1;
+      totalImages.textContent = currentProduct.images.length;
+
+      // Disable buttons if at the start or end
+      prevBtn.disabled = currentImageIdx === 0;
+      nextBtn.disabled = currentImageIdx === currentProduct.images.length - 1;
+
+      // Update WhatsApp link
+      const message = `Hello Glenvorix! I would like to order:\n- *Item:* ${currentProduct.name}\n- *Specification:* ${currentProduct.specification}\n- *Price:* ${currentProduct.price}`;
+      const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+      modalOrderBtn.onclick = () => window.open(waUrl, "_blank");
+    }
+
+    // Event listeners
+    prevBtn.addEventListener("click", () => {
+      if (currentImageIdx > 0) {
+        currentImageIdx--;
+        updateModalContent();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentImageIdx < currentProduct.images.length - 1) {
+        currentImageIdx++;
+        updateModalContent();
+      }
+    });
+
+    modalCloseBtn.addEventListener("click", closeProductModal);
+    modalCloseBottom.addEventListener("click", closeProductModal);
+
+    // Close modal when clicking outside
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeProductModal();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (!modal.classList.contains("active")) return;
+      
+      if (e.key === "ArrowLeft") prevBtn.click();
+      if (e.key === "ArrowRight") nextBtn.click();
+      if (e.key === "Escape") closeProductModal();
     });
   </script>
 </body>
