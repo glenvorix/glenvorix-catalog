@@ -314,6 +314,100 @@
       margin-top: 1rem;
     }
 
+    .pack-selector {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .pack-selector label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .pack-selector select {
+      width: 100%;
+      padding: 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      background-color: white;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .pack-selector select:hover {
+      border-color: var(--primary);
+    }
+
+    .pack-selector select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+    }
+
+    .quantity-selector {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quantity-selector label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background-color: white;
+      padding: 0.35rem;
+    }
+
+    .qty-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      transition: all 0.2s;
+      font-weight: 700;
+    }
+
+    .qty-btn:hover {
+      background-color: #f3f4f6;
+      color: var(--primary-dark);
+    }
+
+    .qty-btn:active {
+      transform: scale(0.95);
+    }
+
+    .qty-display {
+      font-weight: 600;
+      min-width: 50px;
+      text-align: center;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
     .modal-footer {
       padding: 1.5rem;
       border-top: 1px solid var(--border);
@@ -392,8 +486,7 @@
       <div class="contact-info">
         <a href="mailto:glenvorix@gmail.com" class="contact-item">✉️ glenvorix@gmail.com</a>
         <div class="contact-item">
-          📞 <a href="tel:8805442774" class="contact-item">8805442774</a> / 
-          <a href="tel:7259880169" class="contact-item">7259880169</a>
+          📞 <a href="tel:+919180250575" class="contact-item">+91-9180250575</a>
         </div>
       </div>
     </header>
@@ -421,6 +514,23 @@
           <p id="modalSpecification"></p>
           <span class="price" id="modalPrice"></span>
         </div>
+        <div class="pack-selector">
+          <label for="packSelect">Pack Of</label>
+          <select id="packSelect">
+            <option value="1">1 Pack</option>
+            <option value="3">3 Pack</option>
+            <option value="5">5 Pack</option>
+            <option value="10">10 Pack</option>
+          </select>
+        </div>
+        <div class="quantity-selector">
+          <label>Quantity</label>
+          <div class="quantity-controls">
+            <button class="qty-btn" id="decreaseBtn">−</button>
+            <span class="qty-display" id="qtyDisplay">1</span>
+            <button class="qty-btn" id="increaseBtn">+</button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn-modal btn-order" id="modalOrderBtn">Order on WhatsApp</button>
@@ -430,7 +540,7 @@
   </div>
 
   <script>
-    const WHATSAPP_PHONE = "918805442774";
+    const WHATSAPP_PHONE = "+919180250575";
 
     const products = [
       {
@@ -510,6 +620,9 @@
     function openProductModal(product) {
       currentProduct = product;
       currentImageIdx = 0;
+      // Reset quantity and pack
+      document.getElementById("qtyDisplay").textContent = "1";
+      document.getElementById("packSelect").value = "1";
       updateModalContent();
       modal.classList.add("active");
     }
@@ -525,7 +638,6 @@
 
       modalProductName.textContent = currentProduct.name;
       modalSpecification.textContent = currentProduct.specification;
-      modalPrice.textContent = currentProduct.price;
       modalImage.src = currentProduct.images[currentImageIdx];
       
       currentImageIndex.textContent = currentImageIdx + 1;
@@ -535,8 +647,18 @@
       prevBtn.disabled = currentImageIdx === 0;
       nextBtn.disabled = currentImageIdx === currentProduct.images.length - 1;
 
-      // Update WhatsApp link
-      const message = `Hello Glenvorix! I would like to order:\n- *Item:* ${currentProduct.name}\n- *Specification:* ${currentProduct.specification}\n- *Price:* ${currentProduct.price}`;
+      // Calculate total price based on pack and quantity
+      const basePrice = parseInt(currentProduct.price.replace(/[^\d]/g, ''));
+      const packSelect = document.getElementById("packSelect");
+      const selectedPack = parseInt(packSelect.value);
+      const qtyDisplay = document.getElementById("qtyDisplay");
+      const quantity = parseInt(qtyDisplay.textContent);
+      const totalPrice = basePrice * selectedPack * quantity;
+      
+      modalPrice.textContent = `Rs ${totalPrice}`;
+
+      // Update WhatsApp link with pack selection and quantity
+      const message = `Hello Glenvorix! I would like to order:\n- *Item:* ${currentProduct.name}\n- *Pack:* ${selectedPack} Pack\n- *Quantity:* ${quantity}\n- *Specification:* ${currentProduct.specification}\n- *Unit Price:* ${currentProduct.price}\n- *Total Price:* Rs ${totalPrice}`;
       const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
       modalOrderBtn.onclick = () => window.open(waUrl, "_blank");
     }
@@ -558,6 +680,32 @@
 
     modalCloseBtn.addEventListener("click", closeProductModal);
     modalCloseBottom.addEventListener("click", closeProductModal);
+
+    // Pack selection change handler
+    document.getElementById("packSelect").addEventListener("change", () => {
+      if (currentProduct) {
+        updateModalContent();
+      }
+    });
+
+    // Quantity buttons handler
+    document.getElementById("decreaseBtn").addEventListener("click", () => {
+      const qtyDisplay = document.getElementById("qtyDisplay");
+      let qty = parseInt(qtyDisplay.textContent);
+      if (qty > 1) {
+        qty--;
+        qtyDisplay.textContent = qty;
+        updateModalContent();
+      }
+    });
+
+    document.getElementById("increaseBtn").addEventListener("click", () => {
+      const qtyDisplay = document.getElementById("qtyDisplay");
+      let qty = parseInt(qtyDisplay.textContent);
+      qty++;
+      qtyDisplay.textContent = qty;
+      updateModalContent();
+    });
 
     // Close modal when clicking outside
     modal.addEventListener("click", (e) => {
