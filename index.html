@@ -34,76 +34,215 @@
     }
 
     /* Navbar & Header */
-    header {
+    .main-header {
+      position: relative;
+      background: linear-gradient(135deg, #ffffff 0%, #f4fbf7 40%, #f0f7ff 100%);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-radius: 20px;
+      padding: 1.5rem 1.75rem 1.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 86, 179, 0.07), 0 4px 12px -2px rgba(37, 211, 102, 0.05);
+      overflow: hidden;
+    }
+
+    .main-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0056b3 0%, #25D366 50%, #0056b3 100%);
+    }
+
+    .header-top-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: #4b5563;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-pill {
+      background: rgba(37, 211, 102, 0.15);
+      color: #0f766e;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .banner-divider {
+      color: #cbd5e1;
+    }
+
+    .banner-highlight {
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .header-main-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1.5rem;
       flex-wrap: wrap;
-      gap: 2rem;
-      padding: 2rem 1.5rem;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-      border-bottom: 2px solid var(--primary);
-      margin: -1.5rem -1rem 2.5rem -1rem;
-      border-radius: 0 0 16px 16px;
-      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.08);
     }
 
     .brand-section {
       display: flex;
       align-items: center;
       gap: 1.25rem;
-      flex: 1;
+    }
+
+    .brand-logo-wrap {
+      position: relative;
+      flex-shrink: 0;
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 86, 179, 0.08);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo-wrap:hover {
+      transform: scale(1.06) rotate(-2deg);
     }
 
     .brand-logo {
-      height: 64px;
-      width: 64px;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      background: white;
-      padding: 4px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 16px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
     }
 
     .brand-title {
-      font-size: 2.5rem;
+      font-size: 2.35rem;
       font-weight: 900;
-      background: linear-gradient(135deg, #0056b3 0%, #25D366 100%);
+      background: linear-gradient(135deg, #004b99 0%, #0284c7 40%, #10b981 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.1;
-      letter-spacing: 1px;
+      line-height: 1.05;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid #bae6fd;
     }
 
     .brand-tagline {
-      font-size: 1rem;
-      font-weight: 500;
-      color: #0056b3;
-      margin-top: 0.25rem;
-      letter-spacing: 0.3px;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.5rem;
       font-size: 0.95rem;
+      font-weight: 500;
+      color: #4b5563;
+      margin-top: 0.35rem;
+      letter-spacing: 0.2px;
     }
 
-    .contact-item {
-      color: #4b5563;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
-    .contact-item:hover {
-      color: var(--primary);
-      transform: translateX(-4px);
+    .action-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-radius: 30px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+      white-space: nowrap;
+    }
+
+    .chip-phone {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .chip-phone:hover {
+      background: #dcfce7;
+      color: #166534;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(34, 197, 94, 0.18);
+    }
+
+    .chip-email {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .chip-email:hover {
+      background: #dbeafe;
+      color: #1e40af;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.18);
+    }
+
+    .chip-icon {
+      flex-shrink: 0;
+    }
+
+    .header-features {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed rgba(203, 213, 225, 0.8);
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .feature-icon {
+      font-size: 1rem;
     }
 
     /* Product Grid */
@@ -558,20 +697,471 @@
       background-color: #d1d5db;
     }
 
+    /* Left-Hand Side Menu Drawer */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .sidebar-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 85vw;
+      background: #ffffff;
+      box-shadow: 10px 0 25px rgba(0, 0, 0, 0.15);
+      z-index: 2001;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .sidebar-drawer.active {
+      transform: translateX(0);
+    }
+
+    .sidebar-header {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .sidebar-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .sidebar-brand-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0056b3 0%, #25D366 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #64748b;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .sidebar-close-btn:hover {
+      color: #0f172a;
+      background: #e2e8f0;
+    }
+
+    .sidebar-body {
+      padding: 1.25rem 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 0.6rem;
+    }
+
+    .sidebar-menu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .sidebar-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-menu-item:hover {
+      background: #f1f5f9;
+      color: var(--brand-blue);
+      transform: translateX(4px);
+    }
+
+    .sidebar-menu-item.active {
+      background: rgba(37, 211, 102, 0.1);
+      color: #15803d;
+      border-color: rgba(37, 211, 102, 0.25);
+    }
+
+    .sidebar-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .sidebar-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 20px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .sidebar-menu-item.active .sidebar-badge {
+      background: var(--primary);
+      color: white;
+    }
+
+    .sidebar-info-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
+      border: 1px solid rgba(37, 211, 102, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .sidebar-info-card h4 {
+      font-size: 0.9rem;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sidebar-info-card p {
+      color: #475569;
+      line-height: 1.4;
+      font-size: 0.8rem;
+    }
+
+    .sidebar-footer {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+    }
+
+    .btn-sidebar-wa {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-sidebar-wa:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Floating Side Menu Button */
+    .floating-menu-btn {
+      position: fixed;
+      left: 20px;
+      bottom: 24px;
+      background: linear-gradient(135deg, #004b99 0%, #0284c7 50%, #10b981 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.7rem 1.15rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 75, 153, 0.28), 0 2px 6px rgba(16, 185, 129, 0.2);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      touch-action: manipulation;
+      letter-spacing: 0.3px;
+    }
+
+    .floating-menu-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 75, 153, 0.38), 0 4px 12px rgba(16, 185, 129, 0.28);
+    }
+
+    .floating-menu-btn:active {
+      transform: scale(0.95);
+    }
+
+    .hamburger-icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    /* Footer Styles */
+    .main-footer {
+      margin-top: 3.5rem;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #94a3b8;
+      border-radius: 20px;
+      padding: 2.5rem 2rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 1px solid #334155;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1.25fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: white;
+    }
+
+    .footer-brand-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #38bdf8 0%, #4ade80 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #94a3b8;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .highlight-tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .footer-heading {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 1.25rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-heading::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 32px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .footer-links,
+    .footer-contacts {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #38bdf8;
+      transform: translateX(4px);
+    }
+
+    .footer-contacts li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.875rem;
+    }
+
+    .contact-icon {
+      font-size: 1rem;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .contact-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.1rem;
+    }
+
+    .contact-link {
+      color: #f1f5f9;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--primary);
+    }
+
+    .whatsapp-direct {
+      color: var(--primary);
+    }
+
+    .whatsapp-direct:hover {
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.825rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .copyright strong {
+      color: #f8fafc;
+    }
+
+    .back-to-top {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
     /* Responsive Media Queries */
     @media (max-width: 768px) {
+      .main-footer {
+        padding: 2rem 1.25rem 1.25rem;
+        margin-top: 2.5rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+      }
       body {
         padding: 1rem 0.75rem 2rem;
       }
 
-      header {
+      .main-header {
+        padding: 1.25rem 1rem 1rem;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+      }
+
+      .header-top-banner {
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .header-main-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1.25rem;
-        padding: 1.5rem 1rem;
-        margin: -1rem -0.75rem 1.5rem -0.75rem;
-        border-radius: 0 0 16px 16px;
+        gap: 1rem;
       }
 
       .brand-section {
@@ -581,22 +1171,37 @@
         gap: 0.75rem;
       }
 
+      .brand-title-row {
+        justify-content: center;
+      }
+
       .brand-title {
         font-size: 2rem;
       }
 
       .brand-tagline {
-        font-size: 0.9rem;
+        font-size: 0.875rem;
       }
 
-      .contact-info {
-        align-items: center;
+      .header-actions {
         width: 100%;
-        gap: 0.5rem;
+        justify-content: center;
       }
 
-      .contact-item {
-        font-size: 0.9rem;
+      .action-chip {
+        font-size: 0.825rem;
+        padding: 0.5rem 0.85rem;
+      }
+
+      .header-features {
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+      }
+
+      .feature-item {
+        font-size: 0.775rem;
       }
 
       .grid {
@@ -620,12 +1225,36 @@
     }
 
     @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: 1fr;
+      .floating-menu-btn {
+        left: 14px;
+        bottom: 18px;
+        padding: 0.6rem 0.95rem;
+        font-size: 0.825rem;
+      }
+
+      .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .action-chip {
+        width: 100%;
+        justify-content: center;
       }
 
       .brand-title {
         font-size: 1.75rem;
+      }
+
+      .header-features {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
       }
 
       .card-body {
@@ -668,25 +1297,208 @@
 </head>
 <body>
 
+  <!-- Left-Hand Side Menu Drawer & Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar-drawer" id="sidebarDrawer" aria-label="Navigation Menu">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="logo.jpeg" alt="Glenvorix" class="sidebar-logo" onerror="this.src='logo.jpg'" />
+        <span class="sidebar-brand-text">GLENVORIX</span>
+      </div>
+      <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Menu">&times;</button>
+    </div>
+
+    <div class="sidebar-body">
+      <div>
+        <div class="sidebar-section-title">Filter by Size</div>
+        <ul class="sidebar-menu-list">
+          <li>
+            <a class="sidebar-menu-item active" data-filter="all">
+              <span class="sidebar-item-left">🛍️ All Products</span>
+              <span class="sidebar-badge">3</span>
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-menu-item" data-filter="Size - S">
+              <span class="sidebar-item-left">🏷️ Size S (17×19)</span>
+              <span class="sidebar-badge">Rs 40</span>
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-menu-item" data-filter="Size - M">
+              <span class="sidebar-item-left">🏷️ Size M (19×21)</span>
+              <span class="sidebar-badge">Rs 50</span>
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-menu-item" data-filter="Size - L">
+              <span class="sidebar-item-left">🏷️ Size L (24×32)</span>
+              <span class="sidebar-badge">Rs 65</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="sidebar-section-title">Quick Actions</div>
+        <ul class="sidebar-menu-list">
+          <li>
+            <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20am%20interested%20in%20custom%20bulk%20orders." target="_blank" rel="noopener noreferrer" class="sidebar-menu-item">
+              <span class="sidebar-item-left">📦 Bulk & Custom Order</span>
+              <span>&rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a href="tel:+919180250575" class="sidebar-menu-item">
+              <span class="sidebar-item-left">📞 Call: +91-9180250575</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:glenvorix@gmail.com" class="sidebar-menu-item">
+              <span class="sidebar-item-left">✉️ Email Support</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-info-card">
+        <h4>🛡️ Premium Assurance</h4>
+        <p>100% Leak-proof and heavy-duty bags crafted with extra thickness for reliable everyday waste disposal.</p>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20would%20like%20to%20chat%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="btn-sidebar-wa">
+        💬 Chat on WhatsApp
+      </a>
+    </div>
+  </aside>
+
+  <!-- Floating Side Menu Button -->
+  <button class="floating-menu-btn" id="menuToggleBtn" aria-label="Open Navigation Menu">
+    <span class="hamburger-icon">☰</span>
+    <span>Menu</span>
+  </button>
+
   <div class="container">
-    <header>
-      <div class="brand-section">
-        <img src="logo.jpeg" alt="Glenvorix Logo" class="brand-logo" onerror="this.src='logo.jpg'" />
-        <div>
-          <h1 class="brand-title">GLENVORIX</h1>
-          <p class="brand-tagline">Where Everyday Essentials Meet Modern Living</p>
+    <header class="main-header">
+      <div class="header-top-banner">
+        <span class="badge-pill">✨ Official Catalog</span>
+        <span class="banner-divider">•</span>
+        <span class="banner-highlight">Extra Strong & Leak Proof Heavy Duty Bags</span>
+      </div>
+
+      <div class="header-main-content">
+        <div class="brand-section">
+          <div class="brand-logo-wrap">
+            <img src="logo.jpeg" alt="Glenvorix Logo" class="brand-logo" onerror="this.src='logo.jpg'" />
+          </div>
+          <div class="brand-text">
+            <div class="brand-title-row">
+              <h1 class="brand-title">GLENVORIX</h1>
+              <span class="brand-badge">Premium Quality</span>
+            </div>
+            <p class="brand-tagline">Where Everyday Essentials Meet Modern Living</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <a href="tel:+919180250575" class="action-chip chip-phone" aria-label="Call Glenvorix">
+            <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z"/>
+            </svg>
+            <span>+91-9180250575</span>
+          </a>
+          <a href="mailto:glenvorix@gmail.com" class="action-chip chip-email" aria-label="Email Glenvorix">
+            <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            <span>glenvorix@gmail.com</span>
+          </a>
         </div>
       </div>
 
-      <div class="contact-info">
-        <a href="mailto:glenvorix@gmail.com" class="contact-item">✉️ glenvorix@gmail.com</a>
-        <div class="contact-item">
-          📞 <a href="tel:+919180250575" class="contact-item">+91-9180250575</a>
+      <div class="header-features">
+        <div class="feature-item">
+          <span class="feature-icon">🛡️</span>
+          <span>Extra Thick & Tear Resistant</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💧</span>
+          <span>100% Leak Proof</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <span>Direct WhatsApp Ordering</span>
         </div>
       </div>
     </header>
 
     <div class="grid" id="productGrid"></div>
+
+    <!-- Footer Section -->
+    <footer class="main-footer">
+      <div class="footer-grid">
+        <div class="footer-col brand-col">
+          <div class="footer-brand">
+            <img src="logo.jpeg" alt="Glenvorix" class="footer-logo" onerror="this.src='logo.jpg'" />
+            <span class="footer-brand-title">GLENVORIX</span>
+          </div>
+          <p class="footer-desc">
+            Where Everyday Essentials Meet Modern Living. Providing heavy-duty, tear-resistant, and 100% leak-proof bags designed for homes, offices, and commercial establishments.
+          </p>
+          <div class="footer-highlights">
+            <span class="highlight-tag">🌿 Eco-Friendly</span>
+            <span class="highlight-tag">🛡️ Tear-Resistant</span>
+            <span class="highlight-tag">📦 Bulk Packs</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Available Sizes</h3>
+          <ul class="footer-links">
+            <li><a href="#productGrid">Size S (17×19 inches)</a></li>
+            <li><a href="#productGrid">Size M (19×21 inches)</a></li>
+            <li><a href="#productGrid">Size L (24×32 inches)</a></li>
+            <li><a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20have%20an%20inquiry%20about%20custom%20bulk%20orders." target="_blank" rel="noopener noreferrer">Custom Bulk Sizes & Packs &rarr;</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Get in Touch</h3>
+          <ul class="footer-contacts">
+            <li>
+              <span class="contact-icon">📞</span>
+              <div>
+                <span class="contact-label">Phone Support</span>
+                <a href="tel:+919180250575" class="contact-link">+91-9180250575</a>
+              </div>
+            </li>
+            <li>
+              <span class="contact-icon">✉️</span>
+              <div>
+                <span class="contact-label">Email Support</span>
+                <a href="mailto:glenvorix@gmail.com" class="contact-link">glenvorix@gmail.com</a>
+              </div>
+            </li>
+            <li>
+              <span class="contact-icon">💬</span>
+              <div>
+                <span class="contact-label">Instant WhatsApp Order</span>
+                <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20would%20like%20to%20place%20an%20order." target="_blank" rel="noopener noreferrer" class="contact-link whatsapp-direct">Chat with Us Directly &rarr;</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 <strong>GLENVORIX</strong>. All rights reserved.</p>
+        <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+          Back to Top &uarr;
+        </button>
+      </div>
+    </footer>
   </div>
 
   <!-- Modal for Product Image Popup -->
@@ -974,13 +1786,74 @@
       }
     });
 
-    // Keyboard navigation
+    // Sidebar Drawer Functions
+    const sidebarDrawer = document.getElementById("sidebarDrawer");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const menuToggleBtn = document.getElementById("menuToggleBtn");
+    const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+    const sidebarMenuItems = document.querySelectorAll(".sidebar-menu-item[data-filter]");
+
+    function openSidebar() {
+      sidebarDrawer.classList.add("active");
+      sidebarOverlay.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeSidebar() {
+      sidebarDrawer.classList.remove("active");
+      sidebarOverlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    if (menuToggleBtn) menuToggleBtn.addEventListener("click", openSidebar);
+    if (sidebarCloseBtn) sidebarCloseBtn.addEventListener("click", closeSidebar);
+    if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+
+    // Sidebar Filter Actions
+    sidebarMenuItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const filter = item.getAttribute("data-filter");
+        sidebarMenuItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+
+        const cards = grid.querySelectorAll(".card");
+        cards.forEach((card) => {
+          const cardTitle = card.querySelector(".card-title").textContent.trim();
+          if (filter === "all" || cardTitle === filter) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        closeSidebar();
+        document.getElementById("productGrid").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    // Close sidebar on links inside drawer
+    document.querySelectorAll(".sidebar-menu-list a:not([data-filter])").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeSidebar();
+      });
+    });
+
+    // Keyboard navigation (Escape key for modal & sidebar)
     document.addEventListener("keydown", (e) => {
-      if (!modal.classList.contains("active")) return;
+      if (e.key === "Escape") {
+        if (sidebarDrawer.classList.contains("active")) {
+          closeSidebar();
+        }
+        if (modal.classList.contains("active")) {
+          closeProductModal();
+        }
+      }
       
-      if (e.key === "ArrowLeft") prevBtn.click();
-      if (e.key === "ArrowRight") nextBtn.click();
-      if (e.key === "Escape") closeProductModal();
+      if (modal.classList.contains("active")) {
+        if (e.key === "ArrowLeft") prevBtn.click();
+        if (e.key === "ArrowRight") nextBtn.click();
+      }
     });
   </script>
 </body>
