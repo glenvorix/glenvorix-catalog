@@ -1725,7 +1725,7 @@
         <div class="contact-form-group" id="grpPhone">
           <label for="contactPhone">Phone Number *</label>
           <input type="tel" id="contactPhone" placeholder="e.g. 9876543210" autocomplete="tel" />
-          <span class="contact-form-error">Please enter a valid 10-digit phone number.</span>
+          <span class="contact-form-error">Enter a valid 10-digit Indian mobile number (starts with 6–9).</span>
         </div>
         <div class="contact-form-group" id="grpAddress">
           <label for="contactAddress">Delivery Address *</label>
@@ -2125,14 +2125,20 @@
         contactNameInput.classList.remove("error");
       }
 
-      // Phone — must be 10 digits
-      if (!/^\d{10}$/.test(phone)) {
+      // Phone — accept: 10 digits, +91-XXXXXXXXXX, 91XXXXXXXXXX, spaces/dashes allowed
+      const cleanPhone = phone.replace(/[\s\-().]/g, "");          // strip spaces, dashes, dots, parens
+      const phoneDigits = cleanPhone.replace(/^\+?91/, "");        // strip leading +91 or 91
+      const isValidPhone = /^[6-9]\d{9}$/.test(phoneDigits);      // Indian mobile: starts 6-9, 10 digits
+
+      if (!isValidPhone) {
         document.getElementById("grpPhone").classList.add("has-error");
         contactPhoneInput.classList.add("error");
         valid = false;
       } else {
         document.getElementById("grpPhone").classList.remove("has-error");
         contactPhoneInput.classList.remove("error");
+        // normalise to clean 10-digit for the WA message
+        contactPhoneInput.dataset.clean = phoneDigits;
       }
 
       // Address
@@ -2152,7 +2158,7 @@
       if (!validateContactForm()) return;
 
       const name    = contactNameInput.value.trim();
-      const phone   = contactPhoneInput.value.trim();
+      const phone   = contactPhoneInput.dataset.clean || contactPhoneInput.value.trim();
       const address = contactAddressInput.value.trim();
 
       // Append contact info to the pending WA message
