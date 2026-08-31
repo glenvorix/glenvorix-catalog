@@ -1745,6 +1745,7 @@
 
   <script>
     const WHATSAPP_PHONE = "+919180250575";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycby1u5-vl3mA3FLIYht0VIDv4ICH-pDbqmQd36DzsfcHDUPL-P9W-326FUBxfa77eLcp/exec";
 
     const products = [
       {
@@ -2154,15 +2155,42 @@
       return valid;
     }
 
-    contactContinueBtn.addEventListener("click", () => {
+    contactContinueBtn.addEventListener("click", async () => {
       if (!validateContactForm()) return;
 
       const name    = contactNameInput.value.trim();
       const phone   = contactPhoneInput.dataset.clean || contactPhoneInput.value.trim();
       const address = contactAddressInput.value.trim();
 
+      // Extract product details from the pending WhatsApp URL (optional but helpful)
+      // For a more robust solution, we can store current selection in variables
+      
+      // Save to Google Sheet if URL is provided
+      if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
+        try {
+          const orderData = {
+            name: name,
+            phone: phone,
+            address: address,
+            // We can pass the raw message or try to parse the pendingWhatsAppUrl
+            rawMessage: decodeURIComponent(pendingWhatsAppUrl)
+          };
+
+          // Send data to Google Sheet (Async - won't block the user)
+          fetch(GOOGLE_SHEET_URL, {
+            method: "POST",
+            mode: "no-cors", // Required for Google Apps Script
+            cache: "no-cache",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData)
+          });
+        } catch (error) {
+          console.error("Error saving to Google Sheet:", error);
+        }
+      }
+
       // Append contact info to the pending WA message
-      const separator = "%0A";   // URL-encoded newline already in pendingWhatsAppUrl
+      const separator = "%0A";
       const contactBlock = encodeURIComponent(`\n\n📋 Customer Details:\n•  Name: ${name}\n•  Phone: ${phone}\n•  Address: ${address}`);
       const finalUrl = pendingWhatsAppUrl + contactBlock;
 
