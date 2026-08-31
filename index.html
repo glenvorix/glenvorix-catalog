@@ -1861,10 +1861,36 @@
       const waBtn = card.querySelector(".card-wa-btn");
 
       function updateCardPricingAndWA() {
-        const totalPrice = basePrice * selectedPack * currentQty;
+        let pricePerPack;
+        const packVal = parseInt(packSelect.value);
+
+        if (product.id === 1) { // Small
+          if (packVal === 1) pricePerPack = 39;
+          else if (packVal === 3) pricePerPack = 99;
+          else if (packVal === 5) pricePerPack = 149;
+          else if (packVal === 10) pricePerPack = 299;
+          else pricePerPack = basePrice * packVal;
+        } else if (product.id === 2) { // Medium
+          if (packVal === 1) pricePerPack = 49;
+          else if (packVal === 3) pricePerPack = 129;
+          else if (packVal === 5) pricePerPack = 199;
+          else if (packVal === 10) pricePerPack = 390;
+          else pricePerPack = basePrice * packVal;
+        } else if (product.id === 3) { // Large
+          if (packVal === 1) pricePerPack = 60;
+          else if (packVal === 3) pricePerPack = 149;
+          else if (packVal === 5) pricePerPack = 249;
+          else if (packVal === 10) pricePerPack = 490;
+          else pricePerPack = basePrice * packVal;
+        } else {
+          pricePerPack = basePrice * packVal;
+        }
+
+        const totalPrice = pricePerPack * currentQty;
         priceDisplay.textContent = `Rs ${totalPrice}`;
+        
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
-        const message = `Hello Glenvorix! I would like to order:\n•  Product:Garbage Bag\n•  Size :- ${sizeVal}\n•  Pack: ${selectedPack} Pack\n•  Quantity: ${currentQty}\n•  Specification: ${product.specification}\n•  Unit Price: ${product.price}\n•  Total Price: Rs ${totalPrice}`;
+        const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packVal} Pack\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
         waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
       }
 
