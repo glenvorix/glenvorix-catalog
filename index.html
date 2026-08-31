@@ -1646,7 +1646,8 @@
       function updateCardPricingAndWA() {
         const totalPrice = basePrice * selectedPack * currentQty;
         priceDisplay.textContent = `Rs ${totalPrice}`;
-        const message = `Hello Glenvorix! I would like to order:\n- *Item:* ${product.name}\n- *Pack:* ${selectedPack} Pack\n- *Quantity:* ${currentQty}\n- *Specification:* ${product.specification}\n- *Unit Price:* ${product.price}\n- *Total Price:* Rs ${totalPrice}`;
+        const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
+        const message = `Hello Glenvorix! I would like to order:\n•  Product:Garbage Bag\n•  Size :- ${sizeVal}\n•  Pack: ${selectedPack} Pack\n•  Quantity: ${currentQty}\n•  Specification: ${product.specification}\n•  Unit Price: ${product.price}\n•  Total Price: Rs ${totalPrice}`;
         waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
       }
 
