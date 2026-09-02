@@ -10,7 +10,7 @@
       --primary-dark: #1da851;
       --brand-blue: #0056b3;
       --text: #1f2937;
-      --bg: #f9fafb;
+      --bg: #eef7f4;
       --card-bg: #ffffff;
       --border: #e5e7eb;
     }
@@ -33,7 +33,13 @@
       margin: 0 auto;
     }
 
-    /* Navbar & Header */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .main-header {
       position: relative;
       background: linear-gradient(135deg, #ffffff 0%, #f4fbf7 40%, #f0f7ff 100%);
@@ -490,6 +496,14 @@
       font-size: 1.3rem;
       font-weight: 800;
       color: #111827;
+    }
+
+    .currency-symbol {
+      display: inline-block;
+      font-size: 0.72em;
+      font-weight: 700;
+      vertical-align: 0.18em;
+      margin-right: 0.08em;
     }
 
     .btn-whatsapp {
@@ -1009,6 +1023,20 @@
       transform: translateX(4px);
     }
 
+    .sidebar-menu-parent {
+      cursor: pointer;
+    }
+
+    .sidebar-menu-parent:hover {
+      background: #f1f5f9;
+      color: var(--brand-blue);
+      transform: translateX(4px);
+    }
+
+    .sidebar-submenu.collapsed {
+      display: none;
+    }
+
     .sidebar-menu-item.active {
       background: rgba(37, 211, 102, 0.1);
       color: #15803d;
@@ -1491,31 +1519,26 @@
 
     <div class="sidebar-body">
       <div>
-        <div class="sidebar-section-title">Filter by Size</div>
+        <div class="sidebar-section-title">Navigation</div>
         <ul class="sidebar-menu-list">
           <li>
-            <a class="sidebar-menu-item active" data-filter="all">
-              <span class="sidebar-item-left">🛍️ All Products</span>
-              <span class="sidebar-badge">3</span>
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-menu-item" data-filter="Size - S">
-              <span class="sidebar-item-left">🏷️ Size S (17×19)</span>
-              <span class="sidebar-badge">Rs 40</span>
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-menu-item" data-filter="Size - M">
-              <span class="sidebar-item-left">🏷️ Size M (19×21)</span>
-              <span class="sidebar-badge">Rs 50</span>
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-menu-item" data-filter="Size - L">
-              <span class="sidebar-item-left">🏷️ Size L (24×32)</span>
-              <span class="sidebar-badge">Rs 65</span>
-            </a>
+            <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="homeKitchenSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="homeKitchenSubmenu">
+              <span class="sidebar-item-left">🏠 Home & Kitchen</span>
+            </div>
+            <ul class="sidebar-menu-list sidebar-submenu collapsed" id="homeKitchenSubmenu" style="margin-left: 20px;">
+              <li>
+                <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="wasteRecyclingSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="wasteRecyclingSubmenu" style="margin-top: 10px;">
+                  <span class="sidebar-item-left">♻️ Waste & Recycling</span>
+                </div>
+                <ul class="sidebar-menu-list sidebar-submenu collapsed" id="wasteRecyclingSubmenu">
+                  <li>
+                    <a class="sidebar-menu-item" data-filter="Garbage Bag">
+                      <span class="sidebar-item-left">🗑️ Garbage Bags</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -1751,23 +1774,26 @@
       {
         id: 1,
         name: "Size - S",
+        category: "Garbage Bag",
         specification: "Dimension: 17x19",
-        price: "Rs 40",
-        images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg"]
+        price: 39,
+        images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
       },
       {
         id: 2,
         name: "Size - M",
+        category: "Garbage Bag",
         specification: "Dimension: 19x21",
-        price: "Rs 50",
-        images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg"]
+        price: 49,
+        images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
       },
       {
         id: 3,
         name: "Size - L",
+        category: "Garbage Bag",
         specification: "Dimension: 24x32",
-        price: "Rs 65",
-        images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg"]
+        price: 59,
+        images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
       }
     ];
 
@@ -1791,11 +1817,12 @@
       let currentCardImgIdx = 0;
       let selectedPack = 1;
       let currentQty = 1;
-      const basePrice = parseInt(product.price.replace(/[^\d]/g, ''));
+      const basePrice = typeof product.price === 'number' ? product.price : parseInt(product.price.replace(/[^\d]/g, ''));
       const hasMultipleImages = product.images.length > 1;
 
       const card = document.createElement("div");
       card.className = "card";
+      card.dataset.category = product.category;
 
       // Dots HTML
       let dotsHtml = "";
@@ -1841,7 +1868,7 @@
           </div>
 
           <div class="card-footer">
-            <span class="price card-total-price">${product.price}</span>
+            <span class="price card-total-price"><span class="currency-symbol">₹</span> ${product.price}</span>
             <a href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp card-wa-btn">
               Order on WhatsApp
             </a>
@@ -1877,7 +1904,7 @@
           else if (packVal === 10) pricePerPack = 390;
           else pricePerPack = basePrice * packVal;
         } else if (product.id === 3) { // Large
-          if (packVal === 1) pricePerPack = 60;
+          if (packVal === 1) pricePerPack = 59;
           else if (packVal === 3) pricePerPack = 149;
           else if (packVal === 5) pricePerPack = 249;
           else if (packVal === 10) pricePerPack = 490;
@@ -1887,7 +1914,7 @@
         }
 
         const totalPrice = pricePerPack * currentQty;
-        priceDisplay.textContent = `Rs ${totalPrice}`;
+        priceDisplay.innerHTML = `<span class="currency-symbol">₹</span> ${totalPrice}`;
         
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
         const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packVal} Pack\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
@@ -2036,6 +2063,26 @@
     const menuToggleBtn = document.getElementById("menuToggleBtn");
     const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
     const sidebarMenuItems = document.querySelectorAll(".sidebar-menu-item[data-filter]");
+    const menuToggles = document.querySelectorAll("[data-menu-toggle]");
+
+    menuToggles.forEach((toggle) => {
+      const submenu = document.getElementById(toggle.getAttribute("data-menu-toggle"));
+      if (!submenu) return;
+
+      const toggleSubmenu = () => {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!isExpanded));
+        submenu.classList.toggle("collapsed", isExpanded);
+      };
+
+      toggle.addEventListener("click", toggleSubmenu);
+      toggle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleSubmenu();
+        }
+      });
+    });
 
     function openSidebar() {
       sidebarDrawer.classList.add("active");
@@ -2063,8 +2110,8 @@
 
         const cards = grid.querySelectorAll(".card");
         cards.forEach((card) => {
-          const cardTitle = card.querySelector(".card-title").textContent.trim();
-          if (filter === "all" || cardTitle === filter) {
+          const cardCategory = card.dataset.category;
+          if (filter === "all" || cardCategory === filter) {
             card.style.display = "flex";
           } else {
             card.style.display = "none";
