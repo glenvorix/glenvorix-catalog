@@ -10,26 +10,30 @@
       --primary-dark: #1da851;
       --brand-blue: #0056b3;
       --text: #1f2937;
-      --bg: #eef7f4;
+      --bg: #edf5f3;
       --card-bg: #ffffff;
-      --border: #e5e7eb;
+      --border: #dfe7eb;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: "Avenir Next", "Trebuchet MS", sans-serif;
     }
 
     body {
-      background-color: var(--bg);
+      background:
+        linear-gradient(120deg, rgba(0, 86, 179, 0.055), transparent 38%),
+        linear-gradient(300deg, rgba(37, 211, 102, 0.07), transparent 42%),
+        var(--bg);
       color: var(--text);
-      padding: 1.5rem 1rem 3rem;
+      padding: clamp(1rem, 2vw, 1.75rem) clamp(1rem, 4vw, 3rem) 3rem;
+      min-height: 100vh;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1280px;
       margin: 0 auto;
     }
 
@@ -40,14 +44,37 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @keyframes cardReveal {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     .main-header {
       position: relative;
-      background: linear-gradient(135deg, #ffffff 0%, #f4fbf7 40%, #f0f7ff 100%);
-      border: 1px solid rgba(37, 211, 102, 0.25);
-      border-radius: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 52%, #f1fbf6 100%);
+      border: 1px solid rgba(0, 86, 179, 0.16);
+      border-radius: 16px;
       padding: 1.5rem 1.75rem 1.25rem;
       margin-bottom: 2rem;
-      box-shadow: 0 10px 25px -5px rgba(0, 86, 179, 0.07), 0 4px 12px -2px rgba(37, 211, 102, 0.05);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.09), 0 4px 10px rgba(0, 86, 179, 0.05);
       overflow: hidden;
     }
 
@@ -57,8 +84,8 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #0056b3 0%, #25D366 50%, #0056b3 100%);
+      height: 5px;
+      background: linear-gradient(90deg, #0056b3 0%, #0ea5a4 48%, #25D366 100%);
     }
 
     .header-top-banner {
@@ -254,23 +281,33 @@
     /* Product Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
 
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 16px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: cardReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 0.24s;
     }
 
     .card:hover {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.11);
     }
 
     .card-media {
@@ -369,7 +406,7 @@
     }
 
     .card-body {
-      padding: 1.25rem;
+      padding: 1.15rem 1.25rem 1.25rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -391,11 +428,12 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
-      margin-bottom: 1.25rem;
-      background-color: #f9fafb;
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
+      margin-bottom: 1.35rem;
+      background-color: #f8fbfc;
+      padding: 0.85rem;
+      border-radius: 12px;
+      border: 1px solid #dce8ed;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.025);
     }
 
     .control-group {
@@ -405,21 +443,22 @@
     }
 
     .control-label {
-      font-size: 0.78rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      color: #4b5563;
+      color: #64748b;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.7px;
     }
 
     .card-pack-select,
     .card-qty-controls {
       width: 100%;
-      height: 38px;
+      height: 44px;
       box-sizing: border-box;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid #d7e3e8;
+      border-radius: 10px;
       background-color: white;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.035);
     }
 
     .card-pack-select {
@@ -429,11 +468,12 @@
       color: var(--text);
       cursor: pointer;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
 
     .card-pack-select:hover {
       border-color: var(--primary);
+      transform: translateY(-1px);
     }
 
     .card-pack-select:focus {
@@ -445,14 +485,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 0.35rem;
+      padding: 0 0.3rem;
     }
 
     .card-qty-btn {
-      background: none;
+      background: #ecfdf3;
       border: none;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -460,15 +500,15 @@
       font-weight: 700;
       color: var(--primary);
       cursor: pointer;
-      border-radius: 6px;
-      transition: background-color 0.2s, transform 0.1s;
+      border-radius: 8px;
+      transition: background-color 0.2s, color 0.2s, transform 0.1s;
       touch-action: manipulation;
       padding: 0;
       line-height: 1;
     }
 
     .card-qty-btn:hover {
-      background-color: #f3f4f6;
+      background-color: #d1fae5;
       color: var(--primary-dark);
     }
 
@@ -511,20 +551,23 @@
       align-items: center;
       justify-content: center;
       gap: 0.4rem;
-      background-color: var(--primary);
+      background: linear-gradient(135deg, #16a34a, #25d366);
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
       font-size: 0.875rem;
-      padding: 0.65rem 1rem;
-      border-radius: 8px;
-      transition: background-color 0.2s;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 12px rgba(22, 163, 74, 0.2);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
       white-space: nowrap;
       touch-action: manipulation;
     }
 
     .btn-whatsapp:hover {
-      background-color: var(--primary-dark);
+      background: linear-gradient(135deg, #15803d, #16a34a);
+      box-shadow: 0 8px 16px rgba(22, 163, 74, 0.28);
+      transform: translateY(-2px);
     }
 
     /* Modal Styles (Lightbox for Images) */
@@ -628,6 +671,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      cursor: grab;
+      touch-action: pan-y;
+    }
+
+    .gallery-image:active {
+      cursor: grabbing;
     }
 
     .gallery-controls {
@@ -642,17 +691,21 @@
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 50%;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: background-color 0.2s;
+      font-size: 1.4rem;
+      line-height: 1;
+      transition: background-color 0.2s, transform 0.2s;
       touch-action: manipulation;
     }
 
     .gallery-btn:hover:not(:disabled) {
       background-color: var(--primary-dark);
+      transform: scale(1.06);
     }
 
     .gallery-btn:disabled {
@@ -1717,16 +1770,13 @@
           <img id="modalImage" class="gallery-image" src="" alt="Product Image" />
         </div>
         <div class="gallery-controls">
-          <button class="gallery-btn" id="prevBtn">← Previous</button>
+          <button class="gallery-btn" id="prevBtn" aria-label="Previous image" title="Previous image">&larr;</button>
           <span class="image-counter"><span id="currentImageIndex">1</span> / <span id="totalImages">1</span></span>
-          <button class="gallery-btn" id="nextBtn">Next →</button>
+          <button class="gallery-btn" id="nextBtn" aria-label="Next image" title="Next image">&rarr;</button>
         </div>
         <div class="product-details">
           <p id="modalSpecification"></p>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-modal btn-close-modal" id="modalCloseBottom">Close</button>
       </div>
     </div>
   </div>
@@ -1800,6 +1850,7 @@
     const grid = document.getElementById("productGrid");
     const modal = document.getElementById("productModal");
     const modalImage = document.getElementById("modalImage");
+    const imageGallery = document.querySelector(".image-gallery");
     const modalProductName = document.getElementById("modalProductName");
     const modalSpecification = document.getElementById("modalSpecification");
     const prevBtn = document.getElementById("prevBtn");
@@ -1807,7 +1858,6 @@
     const currentImageIndex = document.getElementById("currentImageIndex");
     const totalImages = document.getElementById("totalImages");
     const modalCloseBtn = document.getElementById("modalCloseBtn");
-    const modalCloseBottom = document.getElementById("modalCloseBottom");
 
     let currentProduct = null;
     let currentImageIdx = 0;
@@ -2047,8 +2097,24 @@
       }
     });
 
+    let galleryTouchStartX = 0;
+
+    imageGallery.addEventListener("touchstart", (e) => {
+      galleryTouchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    imageGallery.addEventListener("touchend", (e) => {
+      const touchDiff = e.changedTouches[0].screenX - galleryTouchStartX;
+      if (Math.abs(touchDiff) < 40) return;
+
+      if (touchDiff < 0) {
+        nextBtn.click();
+      } else {
+        prevBtn.click();
+      }
+    }, { passive: true });
+
     modalCloseBtn.addEventListener("click", closeProductModal);
-    modalCloseBottom.addEventListener("click", closeProductModal);
 
     // Close modal when clicking outside
     modal.addEventListener("click", (e) => {
