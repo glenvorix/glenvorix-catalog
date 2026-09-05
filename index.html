@@ -1620,7 +1620,7 @@
 
       <div class="sidebar-info-card">
         <h4>🛡️ Premium Assurance</h4>
-        <p>100% Leak-proof and heavy-duty bags crafted with extra thickness for reliable everyday waste disposal.</p>
+        <p>Strong, dependable bags made for clean and easy waste disposal.</p>
       </div>
     </div>
 
@@ -1642,7 +1642,7 @@
       <div class="header-top-banner">
         <span class="badge-pill">✨ Official Catalog</span>
         <span class="banner-divider">•</span>
-        <span class="banner-highlight">Extra Strong & Leak Proof Heavy Duty Bags</span>
+        <span class="banner-highlight">Extra Strong Heavy Duty Bags</span>
       </div>
 
       <div class="header-main-content">
@@ -1678,11 +1678,11 @@
       <div class="header-features">
         <div class="feature-item">
           <span class="feature-icon">🛡️</span>
-          <span>Extra Thick & Tear Resistant</span>
+            <span>Strong & Durable Bags</span>
         </div>
         <div class="feature-item">
           <span class="feature-icon">💧</span>
-          <span>100% Leak Proof</span>
+          <span>Built for Daily Use</span>
         </div>
         <div class="feature-item">
           <span class="feature-icon">⚡</span>
@@ -1702,7 +1702,7 @@
             <span class="footer-brand-title">GLENVORIX</span>
           </div>
           <p class="footer-desc">
-            Where Everyday Essentials Meet Modern Living. Providing heavy-duty, tear-resistant, and 100% leak-proof bags designed for homes, offices, and commercial establishments.
+            Where Everyday Essentials Meet Modern Living. Providing heavy-duty and tear-resistant bags designed for homes, offices, and commercial establishments.
           </p>
           <div class="footer-highlights">
             <span class="highlight-tag">🌿 Eco-Friendly</span>
@@ -1901,10 +1901,10 @@
             <div class="control-group">
               <label class="control-label">Pack Of</label>
               <select class="card-pack-select">
-                <option value="1">1 Pack</option>
-                <option value="3">3 Pack</option>
-                <option value="5">5 Pack</option>
-                <option value="10">10 Pack</option>
+                <option value="1">1 Pack (30 pieces)</option>
+                <option value="3">3 Pack (90 pieces)</option>
+                <option value="5">5 Pack (150 pieces)</option>
+                <option value="10">10 Pack (300 pieces)</option>
               </select>
             </div>
             <div class="control-group">
@@ -1967,12 +1967,14 @@
         priceDisplay.innerHTML = `<span class="currency-symbol">₹</span> ${totalPrice}`;
         
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
-        const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packVal} Pack\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
+        const packPieces = packVal * 30;
+        const packLabel = `${packVal} Pack (${packPieces} pieces)`;
+        const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packLabel}\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
         waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
         waBtn.dataset.orderData = JSON.stringify({
           product: "Garbage Bag",
           size: sizeVal,
-          pack: `${packVal} Pack`,
+          pack: packLabel,
           quantity: currentQty,
           totalPrice: totalPrice,
           rawMessage: message
