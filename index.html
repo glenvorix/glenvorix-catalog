@@ -1362,7 +1362,14 @@
     .sidebar-item-left {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.7rem;
+    }
+
+    .menu-icon {
+      display: inline-flex;
+      width: 1.25rem;
+      justify-content: center;
+      flex: 0 0 1.25rem;
     }
 
     .sidebar-badge {
@@ -1478,9 +1485,14 @@
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1.25fr;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
       gap: 2.5rem;
       margin-bottom: 2.5rem;
+    }
+
+    .footer-grid > .footer-col:last-child {
+      justify-self: end;
+      width: min(100%, 340px);
     }
 
     .footer-brand {
@@ -1659,6 +1671,11 @@
         grid-template-columns: 1fr;
         gap: 2rem;
         margin-bottom: 2rem;
+      }
+
+      .footer-grid > .footer-col:last-child {
+        justify-self: stretch;
+        width: 100%;
       }
 
       .footer-bottom {
@@ -1844,36 +1861,36 @@
         <ul class="sidebar-menu-list">
           <li>
             <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="homeKitchenSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="homeKitchenSubmenu">
-              <span class="sidebar-item-left">🏠 Home & Kitchen</span>
+              <span class="sidebar-item-left"><span class="menu-icon">🏠</span><span>Home &amp; Kitchen</span></span>
             </div>
             <ul class="sidebar-menu-list sidebar-submenu collapsed" id="homeKitchenSubmenu" style="margin-left: 20px;">
               <li>
                 <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="wasteRecyclingSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="wasteRecyclingSubmenu" style="margin-top: 10px;">
-                  <span class="sidebar-item-left">♻️ Waste & Recycling</span>
+                  <span class="sidebar-item-left"><span class="menu-icon">♻️</span><span>Waste &amp; Recycling</span></span>
                 </div>
                 <ul class="sidebar-menu-list sidebar-submenu collapsed" id="wasteRecyclingSubmenu">
                   <li>
                     <a class="sidebar-menu-item" data-filter="Garbage Bag">
-                      <span class="sidebar-item-left">🗑️ Garbage Bags</span>
+                      <span class="sidebar-item-left"><span class="menu-icon">🗑️</span><span>Garbage Bags</span></span>
                     </a>
                   </li>
                 </ul>
               </li>
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
-                  <span class="sidebar-item-left">🧺 Kitchen Storage</span>
+                  <span class="sidebar-item-left"><span class="menu-icon">🧺</span><span>Kitchen Storage</span></span>
                   <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
-                  <span class="sidebar-item-left">🧽 Cleaning Essentials</span>
+                  <span class="sidebar-item-left"><span class="menu-icon">🧽</span><span>Cleaning Essentials</span></span>
                   <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
-                  <span class="sidebar-item-left">🗂️ Home Organization</span>
+                  <span class="sidebar-item-left"><span class="menu-icon">🗂️</span><span>Home Organization</span></span>
                   <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
@@ -1887,18 +1904,18 @@
         <ul class="sidebar-menu-list">
           <li>
             <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20am%20interested%20in%20custom%20bulk%20orders." target="_blank" rel="noopener noreferrer" class="sidebar-menu-item">
-              <span class="sidebar-item-left">📦 Bulk & Custom Order</span>
+              <span class="sidebar-item-left"><span class="menu-icon">📦</span><span>Bulk &amp; Custom Order</span></span>
               <span>&rarr;</span>
             </a>
           </li>
           <li>
             <a href="tel:+919180250575" class="sidebar-menu-item">
-              <span class="sidebar-item-left">📞 Call: +91-9180250575</span>
+              <span class="sidebar-item-left"><span class="menu-icon">📞</span><span>Call: +91-9180250575</span></span>
             </a>
           </li>
           <li>
-            <a href="mailto:glenvorix@gmail.com" class="sidebar-menu-item">
-              <span class="sidebar-item-left">✉️ Email Support</span>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=glenvorix@gmail.com" target="_blank" rel="noopener noreferrer" class="sidebar-menu-item">
+              <span class="sidebar-item-left"><span class="menu-icon">✉️</span><span>Email Support</span></span>
             </a>
           </li>
         </ul>
@@ -1969,7 +1986,7 @@
             </svg>
             <span>+91-9180250575</span>
           </a>
-          <a href="mailto:glenvorix@gmail.com" class="action-chip chip-email" aria-label="Email Glenvorix">
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=glenvorix@gmail.com" target="_blank" rel="noopener noreferrer" class="action-chip chip-email" aria-label="Email Glenvorix">
             <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
               <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
@@ -2019,16 +2036,6 @@
         </div>
 
         <div class="footer-col">
-          <h3 class="footer-heading">Available Sizes</h3>
-          <ul class="footer-links">
-            <li><a href="#productGrid">Size S (17*19 Inch)</a></li>
-            <li><a href="#productGrid">Size M (19*21 Inch)</a></li>
-            <li><a href="#productGrid">Size L (24*32 Inch)</a></li>
-            <li><a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20have%20an%20inquiry%20about%20custom%20bulk%20orders." target="_blank" rel="noopener noreferrer">Custom Bulk Sizes & Packs &rarr;</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
           <h3 class="footer-heading">Get in Touch</h3>
           <ul class="footer-contacts">
             <li>
@@ -2042,7 +2049,7 @@
               <span class="contact-icon">✉️</span>
               <div>
                 <span class="contact-label">Email Support</span>
-                <a href="mailto:glenvorix@gmail.com" class="contact-link">glenvorix@gmail.com</a>
+                <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=glenvorix@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-link">glenvorix@gmail.com</a>
               </div>
             </li>
             <li>
