@@ -556,6 +556,16 @@
       color: #111827;
     }
 
+    .original-price {
+      display: inline-block;
+      margin-right: 0.35rem;
+      color: #94a3b8;
+      font-size: 0.82em;
+      font-weight: 600;
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
     .currency-symbol {
       display: inline-block;
       font-size: 0.72em;
@@ -2282,7 +2292,7 @@
           if (packVal === 1) pricePerPack = 49;
           else if (packVal === 3) pricePerPack = 129;
           else if (packVal === 5) pricePerPack = 199;
-          else if (packVal === 10) pricePerPack = 390;
+          else if (packVal === 10) pricePerPack = 490;
           else pricePerPack = basePrice * packVal;
         } else if (product.id === 3) { // Large
           if (packVal === 1) pricePerPack = 59;
@@ -2295,7 +2305,17 @@
         }
 
         const totalPrice = pricePerPack * currentQty;
-        priceDisplay.innerHTML = `<span class="currency-symbol">₹</span> ${totalPrice}`;
+        const originalPackPrices = {
+          1: { 3: 117, 5: 195, 10: 390 },
+          2: { 3: 147, 5: 245, 10: 390 },
+          3: { 3: 177, 5: 295, 10: 590 }
+        };
+        const originalPackPrice = originalPackPrices[product.id]?.[packVal];
+        const originalTotal = originalPackPrice ? originalPackPrice * currentQty : null;
+        const originalPriceMarkup = originalTotal
+          ? `<span class="original-price"><span class="currency-symbol">₹</span> ${originalTotal}</span>`
+          : "";
+        priceDisplay.innerHTML = `${originalPriceMarkup}<span class="currency-symbol">₹</span> ${totalPrice}`;
         
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
         const packPieces = packVal * piecesPerPack;
