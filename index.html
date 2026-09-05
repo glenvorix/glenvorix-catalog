@@ -618,6 +618,34 @@
       transform: translateY(-2px);
     }
 
+    .card-add-btn:disabled,
+    .card-pack-select:disabled,
+    .card-qty-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+
+    .card-add-btn:disabled {
+      border-color: #cbd5e1;
+      background: #e2e8f0;
+      color: #64748b;
+      box-shadow: none;
+    }
+
+    .stock-badge {
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
     .cart-toggle-btn {
       position: fixed;
       right: 1.25rem;
@@ -2176,6 +2204,37 @@
         category: "Garbage Bag",
         specification: "Dimension: 24*32 Inch",
         price: 59,
+        thickness: 6,
+        images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
+      },
+      {
+        id: 4,
+        name: "Size - S (8 Micron)",
+        category: "Garbage Bag",
+        specification: "Dimension: 17*19 Inch",
+        price: 39,
+        thickness: 8,
+        outOfStock: true,
+        images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
+      },
+      {
+        id: 5,
+        name: "Size - M (8 Micron)",
+        category: "Garbage Bag",
+        specification: "Dimension: 19*21 Inch",
+        price: 49,
+        thickness: 8,
+        outOfStock: true,
+        images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
+      },
+      {
+        id: 6,
+        name: "Size - L (8 Micron)",
+        category: "Garbage Bag",
+        specification: "Dimension: 24*32 Inch",
+        price: 59,
+        thickness: 8,
+        outOfStock: true,
         images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
       }
     ];
@@ -2237,8 +2296,8 @@
           ` : ''}
         </div>
         <div class="card-body">
-          <div class="card-title">${product.name}</div>
-          <div class="card-desc">${product.specification}</div>
+          <div class="card-title">${product.name}${product.outOfStock ? '<span class="stock-badge">Out of Stock</span>' : ''}</div>
+          <div class="card-desc">${product.specification}<br />Thickness: ${product.thickness || 6} Micron</div>
 
           <div class="card-controls">
             <div class="control-group">
@@ -2261,8 +2320,8 @@
           </div>
 
           <div class="card-footer">
-            <span class="price card-total-price"><span class="currency-symbol">₹</span> ${product.price}</span>
-            <button type="button" class="card-add-btn card-add-to-cart">Add to Cart</button>
+            <span class="price card-total-price">${product.outOfStock ? "" : `<span class="currency-symbol">₹</span> ${product.price}`}</span>
+            <button type="button" class="card-add-btn card-add-to-cart" ${product.outOfStock ? 'disabled' : ''}>${product.outOfStock ? 'Out of Stock' : 'Add to Cart'}</button>
           </div>
         </div>
       `;
@@ -2279,9 +2338,21 @@
       const addBtn = card.querySelector(".card-add-to-cart");
       let currentOrderData = null;
 
+      if (product.outOfStock) {
+        packSelect.disabled = true;
+        decBtn.disabled = true;
+        incBtn.disabled = true;
+      }
+
       function updateCardPricingAndWA() {
         let pricePerPack;
         const packVal = parseInt(packSelect.value);
+
+        if (product.outOfStock) {
+          priceDisplay.textContent = "";
+          currentOrderData = null;
+          return;
+        }
 
         if (product.id === 1) { // Small
           if (packVal === 1) pricePerPack = 39;
