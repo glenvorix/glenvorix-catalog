@@ -1066,6 +1066,10 @@
       height: 80px;
     }
 
+    .address-field + .address-field {
+      margin-top: 0.65rem;
+    }
+
     .contact-form-group input:focus,
     .contact-form-group textarea:focus {
       outline: none;
@@ -2054,9 +2058,11 @@
           <span class="contact-form-error">Enter a valid 10-digit Indian mobile number (starts with 6–9).</span>
         </div>
         <div class="contact-form-group" id="grpAddress">
-          <label for="contactAddress">Delivery Address *</label>
-          <textarea id="contactAddress" placeholder="House No, Street, City, Pincode"></textarea>
-          <span class="contact-form-error">Please enter your delivery address.</span>
+          <label for="contactFlat">Delivery Address *</label>
+          <input class="address-field" type="text" id="contactFlat" placeholder="Flat number" autocomplete="address-line1" required />
+          <input class="address-field" type="text" id="contactBuilding" placeholder="Society / Building name" autocomplete="address-line2" required />
+          <input class="address-field" type="text" id="contactArea" placeholder="Area" autocomplete="address-level2" required />
+          <span class="contact-form-error">Please enter your flat number, society/building name, and area.</span>
         </div>
       </div>
       <div class="contact-modal-footer">
@@ -2614,7 +2620,9 @@
     const contactContinueBtn   = document.getElementById("contactContinueBtn");
     const contactNameInput     = document.getElementById("contactName");
     const contactPhoneInput    = document.getElementById("contactPhone");
-    const contactAddressInput  = document.getElementById("contactAddress");
+    const contactFlatInput     = document.getElementById("contactFlat");
+    const contactBuildingInput = document.getElementById("contactBuilding");
+    const contactAreaInput     = document.getElementById("contactArea");
 
     let pendingWhatsAppUrl = "";
     let pendingOrderData = null;
@@ -2625,11 +2633,13 @@
       // reset form
       contactNameInput.value = "";
       contactPhoneInput.value = "";
-      contactAddressInput.value = "";
+      contactFlatInput.value = "";
+      contactBuildingInput.value = "";
+      contactAreaInput.value = "";
       ["grpName","grpPhone","grpAddress"].forEach(id => {
         document.getElementById(id).classList.remove("has-error");
       });
-      [contactNameInput, contactPhoneInput, contactAddressInput].forEach(el => el.classList.remove("error"));
+      [contactNameInput, contactPhoneInput, contactFlatInput, contactBuildingInput, contactAreaInput].forEach(el => el.classList.remove("error"));
       contactModalOverlay.classList.add("active");
       document.body.style.overflow = "hidden";
       contactNameInput.focus();
@@ -2647,7 +2657,9 @@
 
       const name = contactNameInput.value.trim();
       const phone = contactPhoneInput.value.trim();
-      const address = contactAddressInput.value.trim();
+      const flatAndBuilding = contactFlatInput.value.trim();
+      const building = contactBuildingInput.value.trim();
+      const area = contactAreaInput.value.trim();
 
       // Name
       if (!name) {
@@ -2678,13 +2690,17 @@
       }
 
       // Address
-      if (!address) {
+      if (!flatAndBuilding || !building || !area) {
         document.getElementById("grpAddress").classList.add("has-error");
-        contactAddressInput.classList.add("error");
+        contactFlatInput.classList.toggle("error", !flatAndBuilding);
+        contactBuildingInput.classList.toggle("error", !building);
+        contactAreaInput.classList.toggle("error", !area);
         valid = false;
       } else {
         document.getElementById("grpAddress").classList.remove("has-error");
-        contactAddressInput.classList.remove("error");
+        contactFlatInput.classList.remove("error");
+        contactBuildingInput.classList.remove("error");
+        contactAreaInput.classList.remove("error");
       }
 
       return valid;
@@ -2695,7 +2711,7 @@
 
       const name    = contactNameInput.value.trim();
       const phone   = contactPhoneInput.dataset.clean || contactPhoneInput.value.trim();
-      const address = contactAddressInput.value.trim();
+      const address = `${contactFlatInput.value.trim()}\n${contactBuildingInput.value.trim()}\n${contactAreaInput.value.trim()}`;
 
       // Extract product details from the pending WhatsApp URL (optional but helpful)
       // For a more robust solution, we can store current selection in variables
