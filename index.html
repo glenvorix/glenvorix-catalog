@@ -675,8 +675,38 @@
       background: transparent;
       color: #64748b;
       cursor: pointer;
-      font-size: 1.2rem;
       padding: 0.2rem;
+    }
+
+    .cart-remove-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .cart-delete-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #fecaca;
+      border-radius: 50%;
+      color: #dc2626;
+      background: #fef2f2;
+      font-size: 0.8rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cart-remove-btn:hover {
+      color: #b91c1c;
+    }
+
+    .cart-remove-btn:hover .cart-delete-circle {
+      color: white;
+      background: #dc2626;
     }
 
     .cart-item {
@@ -1066,6 +1096,21 @@
 
     .address-field + .address-field {
       margin-top: 0.65rem;
+    }
+
+    .address-field-error + .address-field {
+      margin-top: 0.65rem;
+    }
+
+    .address-field-error {
+      display: none;
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .address-field-error.active {
+      display: block;
     }
 
     .contact-form-group input:focus,
@@ -2064,12 +2109,15 @@
         </div>
         <div class="contact-form-group" id="grpAddress">
           <label for="contactFlat">Delivery Address *</label>
-          <input class="address-field" type="text" id="contactFlat" placeholder="Flat number" autocomplete="address-line1" required />
+          <input class="address-field" type="text" id="contactFlat" placeholder="Flat number (e.g. A123)" autocomplete="address-line1" required />
+          <span class="address-field-error" id="flatError">Flat number is required.</span>
           <select class="address-field" id="contactBuilding" autocomplete="address-line2" required>
             <option value="" selected disabled>Select society / building</option>
             <option value="Assetz Marq">Assetz Marq</option>
           </select>
+          <span class="address-field-error" id="buildingError">Society / Building name is required.</span>
           <input class="address-field" type="text" id="contactArea" placeholder="Area" autocomplete="address-level2" required />
+          <span class="address-field-error" id="areaError">Area is required.</span>
           <span class="contact-form-error">Please enter your flat number, society/building name, and area.</span>
         </div>
       </div>
@@ -2375,7 +2423,7 @@
               <button class="cart-qty-btn" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease item quantity">−</button>
               <span class="cart-qty-value">${item.quantity}</span>
               <button class="cart-qty-btn" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase item quantity">+</button>
-              <button class="cart-remove-btn" data-cart-action="remove" data-cart-index="${index}" aria-label="Remove item">&times;</button>
+              <button class="cart-remove-btn" data-cart-action="remove" data-cart-index="${index}" aria-label="Delete item"><span class="cart-delete-circle" aria-hidden="true">&#128465;</span><span>Delete</span></button>
             </div>
           </div>
           <span class="cart-item-price"><span class="currency-symbol">₹</span> ${item.totalPrice}</span>
@@ -2631,6 +2679,9 @@
     const contactFlatInput     = document.getElementById("contactFlat");
     const contactBuildingInput = document.getElementById("contactBuilding");
     const contactAreaInput     = document.getElementById("contactArea");
+    const flatError            = document.getElementById("flatError");
+    const buildingError        = document.getElementById("buildingError");
+    const areaError            = document.getElementById("areaError");
 
     let pendingWhatsAppUrl = "";
     let pendingOrderData = null;
@@ -2648,6 +2699,7 @@
         document.getElementById(id).classList.remove("has-error");
       });
       [contactNameInput, contactPhoneInput, contactFlatInput, contactBuildingInput, contactAreaInput].forEach(el => el.classList.remove("error"));
+      [flatError, buildingError, areaError].forEach(el => el.classList.remove("active"));
       contactModalOverlay.classList.add("active");
       document.body.style.overflow = "hidden";
       contactNameInput.focus();
@@ -2703,12 +2755,16 @@
         contactFlatInput.classList.toggle("error", !flatAndBuilding);
         contactBuildingInput.classList.toggle("error", !building);
         contactAreaInput.classList.toggle("error", !area);
+        flatError.classList.toggle("active", !flatAndBuilding);
+        buildingError.classList.toggle("active", !building);
+        areaError.classList.toggle("active", !area);
         valid = false;
       } else {
         document.getElementById("grpAddress").classList.remove("has-error");
         contactFlatInput.classList.remove("error");
         contactBuildingInput.classList.remove("error");
         contactAreaInput.classList.remove("error");
+        [flatError, buildingError, areaError].forEach(el => el.classList.remove("active"));
       }
 
       return valid;
