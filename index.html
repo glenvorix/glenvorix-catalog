@@ -285,6 +285,33 @@
       gap: 1.25rem;
     }
 
+    .coming-soon-view {
+      display: none;
+      padding: clamp(3rem, 8vw, 6rem) 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(0, 86, 179, 0.12);
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    .coming-soon-view.active {
+      display: block;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .coming-soon-view h2 {
+      margin-bottom: 0.65rem;
+      color: #0f766e;
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+    }
+
+    .coming-soon-view p {
+      color: #64748b;
+      font-size: 1rem;
+    }
+
     .card {
       background: var(--card-bg);
       border: 1px solid rgba(148, 163, 184, 0.28);
@@ -1086,6 +1113,29 @@
       transform: translateX(4px);
     }
 
+    .sidebar-coming-soon {
+      cursor: default;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .sidebar-coming-soon:hover {
+      background: transparent;
+      color: #94a3b8;
+      transform: none;
+    }
+
+    .coming-soon-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #0f766e;
+      background: #ccfbf1;
+      border: 1px solid #99f6e4;
+      border-radius: 999px;
+      padding: 0.16rem 0.45rem;
+      white-space: nowrap;
+    }
+
     .sidebar-submenu.collapsed {
       display: none;
     }
@@ -1591,6 +1641,24 @@
                   </li>
                 </ul>
               </li>
+              <li>
+                <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
+                  <span class="sidebar-item-left">🧺 Kitchen Storage</span>
+                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
+                </div>
+              </li>
+              <li>
+                <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
+                  <span class="sidebar-item-left">🧽 Cleaning Essentials</span>
+                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
+                </div>
+              </li>
+              <li>
+                <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
+                  <span class="sidebar-item-left">🗂️ Home Organization</span>
+                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
+                </div>
+              </li>
             </ul>
           </li>
         </ul>
@@ -1692,6 +1760,10 @@
     </header>
 
     <div class="grid" id="productGrid"></div>
+    <section class="coming-soon-view" id="comingSoonView" aria-live="polite">
+      <h2>Stay tuned! Coming soon...</h2>
+      <p>New Home &amp; Kitchen essentials will be available here soon.</p>
+    </section>
 
     <!-- Footer Section -->
     <footer class="main-footer">
@@ -1848,6 +1920,7 @@
     ];
 
     const grid = document.getElementById("productGrid");
+    const comingSoonView = document.getElementById("comingSoonView");
     const modal = document.getElementById("productModal");
     const modalImage = document.getElementById("modalImage");
     const imageGallery = document.querySelector(".image-gallery");
@@ -1869,6 +1942,7 @@
       let currentQty = 1;
       const basePrice = typeof product.price === 'number' ? product.price : parseInt(product.price.replace(/[^\d]/g, ''));
       const hasMultipleImages = product.images.length > 1;
+      const piecesPerPack = product.id === 3 ? 15 : 30;
 
       const card = document.createElement("div");
       card.className = "card";
@@ -1901,10 +1975,10 @@
             <div class="control-group">
               <label class="control-label">Pack Of</label>
               <select class="card-pack-select">
-                <option value="1">1 Pack (30 pieces)</option>
-                <option value="3">3 Pack (90 pieces)</option>
-                <option value="5">5 Pack (150 pieces)</option>
-                <option value="10">10 Pack (300 pieces)</option>
+                <option value="1">1 Pack (${piecesPerPack} pieces)</option>
+                <option value="3">3 Pack (${piecesPerPack * 3} pieces)</option>
+                <option value="5">5 Pack (${piecesPerPack * 5} pieces)</option>
+                <option value="10">10 Pack (${piecesPerPack * 10} pieces)</option>
               </select>
             </div>
             <div class="control-group">
@@ -1967,7 +2041,7 @@
         priceDisplay.innerHTML = `<span class="currency-symbol">₹</span> ${totalPrice}`;
         
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
-        const packPieces = packVal * 30;
+        const packPieces = packVal * piecesPerPack;
         const packLabel = `${packVal} Pack (${packPieces} pieces)`;
         const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packLabel}\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
         waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
@@ -2176,6 +2250,25 @@
     if (sidebarCloseBtn) sidebarCloseBtn.addEventListener("click", closeSidebar);
     if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
 
+    // Show the placeholder view for categories that are not available yet.
+    document.querySelectorAll("[data-coming-soon]").forEach((item) => {
+      const showComingSoon = () => {
+        sidebarMenuItems.forEach(i => i.classList.remove("active"));
+        grid.style.display = "none";
+        comingSoonView.classList.add("active");
+        closeSidebar();
+        comingSoonView.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+
+      item.addEventListener("click", showComingSoon);
+      item.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          showComingSoon();
+        }
+      });
+    });
+
     // Sidebar Filter Actions
     sidebarMenuItems.forEach((item) => {
       item.addEventListener("click", (e) => {
@@ -2183,6 +2276,8 @@
         const filter = item.getAttribute("data-filter");
         sidebarMenuItems.forEach(i => i.classList.remove("active"));
         item.classList.add("active");
+        grid.style.display = "grid";
+        comingSoonView.classList.remove("active");
 
         const cards = grid.querySelectorAll(".card");
         cards.forEach((card) => {
