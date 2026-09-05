@@ -1818,7 +1818,7 @@
 
   <script>
     const WHATSAPP_PHONE = "+919180250575";
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycby1u5-vl3mA3FLIYht0VIDv4ICH-pDbqmQd36DzsfcHDUPL-P9W-326FUBxfa77eLcp/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxHaiZsRFNty4LKHc4Sm10SsRVgIVmBGCRp_VgBayALCtVWf6UjrCa3dyIhC-Mzx_kQ/exec";
 
     const products = [
       {
@@ -1969,6 +1969,14 @@
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
         const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packVal} Pack\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
         waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+        waBtn.dataset.orderData = JSON.stringify({
+          product: "Garbage Bag",
+          size: sizeVal,
+          pack: `${packVal} Pack`,
+          quantity: currentQty,
+          totalPrice: totalPrice,
+          rawMessage: message
+        });
       }
 
       // Initialize WhatsApp link & pricing
@@ -2225,10 +2233,12 @@
     const contactPhoneInput    = document.getElementById("contactPhone");
     const contactAddressInput  = document.getElementById("contactAddress");
 
-    let pendingWhatsAppUrl = "";   // holds the WA url while contact form is open
+    let pendingWhatsAppUrl = "";
+    let pendingOrderData = null;
 
-    function openContactModal(waUrl) {
+    function openContactModal(waUrl, orderData) {
       pendingWhatsAppUrl = waUrl;
+      pendingOrderData = orderData;
       // reset form
       contactNameInput.value = "";
       contactPhoneInput.value = "";
@@ -2246,6 +2256,7 @@
       contactModalOverlay.classList.remove("active");
       document.body.style.overflow = "";
       pendingWhatsAppUrl = "";
+      pendingOrderData = null;
     }
 
     function validateContactForm() {
@@ -2267,7 +2278,9 @@
 
       // Phone — accept: 10 digits, +91-XXXXXXXXXX, 91XXXXXXXXXX, spaces/dashes allowed
       const cleanPhone = phone.replace(/[\s\-().]/g, "");          // strip spaces, dashes, dots, parens
-      const phoneDigits = cleanPhone.replace(/^\+?91/, "");        // strip leading +91 or 91
+      const phoneDigits = cleanPhone.length > 10 && /^\+?91/.test(cleanPhone)
+        ? cleanPhone.replace(/^\+?91/, "")
+        : cleanPhone;
       const isValidPhone = /^[6-9]\d{9}$/.test(phoneDigits);      // Indian mobile: starts 6-9, 10 digits
 
       if (!isValidPhone) {
@@ -2311,17 +2324,20 @@
             name: name,
             phone: phone,
             address: address,
-            // We can pass the raw message or try to parse the pendingWhatsAppUrl
-            rawMessage: decodeURIComponent(pendingWhatsAppUrl)
+            product: pendingOrderData?.product || "",
+            size: pendingOrderData?.size || "",
+            pack: pendingOrderData?.pack || "",
+            quantity: pendingOrderData?.quantity || "",
+            totalPrice: pendingOrderData?.totalPrice || "",
+            rawMessage: pendingOrderData?.rawMessage || ""
           };
 
-          // Send data to Google Sheet (Async - won't block the user)
+          // Form encoding lets Google Apps Script read values through e.parameter.
           fetch(GOOGLE_SHEET_URL, {
             method: "POST",
-            mode: "no-cors", // Required for Google Apps Script
+            mode: "no-cors",
             cache: "no-cache",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData)
+            body: new URLSearchParams(orderData)
           });
         } catch (error) {
           console.error("Error saving to Google Sheet:", error);
@@ -2349,7 +2365,13 @@
       if (!btn) return;
       e.preventDefault();
       e.stopPropagation();
-      openContactModal(btn.href);
+      let orderData = null;
+      try {
+        orderData = JSON.parse(btn.dataset.orderData || "null");
+      } catch (error) {
+        console.error("Could not read order details:", error);
+      }
+      openContactModal(btn.href, orderData);
     });
   </script>
 </body>
