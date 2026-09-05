@@ -321,15 +321,6 @@
       flex-direction: column;
       box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: cardReveal 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .card:nth-child(2) {
-      animation-delay: 0.24s;
-    }
-
-    .card:nth-child(3) {
-      animation-delay: 0.48s;
     }
 
     .card:hover {
@@ -1048,6 +1039,7 @@
     }
 
     .contact-form-group input,
+    .contact-form-group select,
     .contact-form-group textarea {
       width: 100%;
       padding: 0.65rem 0.85rem;
@@ -1071,6 +1063,7 @@
     }
 
     .contact-form-group input:focus,
+    .contact-form-group select:focus,
     .contact-form-group textarea:focus {
       outline: none;
       border-color: var(--primary);
@@ -1079,6 +1072,7 @@
     }
 
     .contact-form-group input.error,
+    .contact-form-group select.error,
     .contact-form-group textarea.error {
       border-color: #ef4444;
     }
@@ -2060,7 +2054,10 @@
         <div class="contact-form-group" id="grpAddress">
           <label for="contactFlat">Delivery Address *</label>
           <input class="address-field" type="text" id="contactFlat" placeholder="Flat number" autocomplete="address-line1" required />
-          <input class="address-field" type="text" id="contactBuilding" placeholder="Society / Building name" autocomplete="address-line2" required />
+          <select class="address-field" id="contactBuilding" autocomplete="address-line2" required>
+            <option value="" selected disabled>Select society / building</option>
+            <option value="Assetz Marq">Assetz Marq</option>
+          </select>
           <input class="address-field" type="text" id="contactArea" placeholder="Area" autocomplete="address-level2" required />
           <span class="contact-form-error">Please enter your flat number, society/building name, and area.</span>
         </div>
