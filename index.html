@@ -597,6 +597,170 @@
       transform: translateY(-2px);
     }
 
+    .card-add-btn {
+      border: 1px solid rgba(0, 86, 179, 0.18);
+      background: #eff6ff;
+      color: var(--brand-blue);
+      font-weight: 700;
+      font-size: 0.875rem;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+
+    .card-add-btn:hover {
+      background: var(--brand-blue);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .cart-toggle-btn {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 900;
+      border: none;
+      border-radius: 999px;
+      padding: 0.8rem 1.1rem;
+      background: #0f766e;
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .cart-toggle-btn:hover {
+      background: #115e59;
+      transform: translateY(-2px);
+    }
+
+    .cart-panel {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 4.8rem;
+      z-index: 910;
+      width: min(390px, calc(100vw - 2rem));
+      max-height: min(620px, calc(100vh - 7rem));
+      overflow-y: auto;
+      padding: 1.15rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+      display: none;
+    }
+
+    .cart-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .cart-header,
+    .cart-item,
+    .cart-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .cart-header {
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-header h3 {
+      color: #0f172a;
+      font-size: 1.1rem;
+    }
+
+    .cart-close-btn,
+    .cart-remove-btn {
+      border: none;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.2rem;
+    }
+
+    .cart-item {
+      align-items: flex-start;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #edf2f4;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-name {
+      font-weight: 800;
+      color: #1f2937;
+    }
+
+    .cart-item-meta {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.45rem;
+    }
+
+    .cart-qty-btn {
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #f8fafc;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .cart-qty-value {
+      min-width: 22px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .cart-item-price {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .cart-empty {
+      color: #64748b;
+      padding: 1.2rem 0;
+      text-align: center;
+    }
+
+    .cart-total-row {
+      padding: 1rem 0;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .cart-checkout-btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      background: linear-gradient(135deg, #16a34a, #25d366);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     /* Modal Styles (Lightbox for Images) */
     .modal {
       display: none;
@@ -1705,6 +1869,23 @@
     <span>Menu</span>
   </button>
 
+  <button class="cart-toggle-btn" id="cartToggleBtn" aria-expanded="false" aria-controls="cartPanel">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </button>
+
+  <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close cart">&times;</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span><span class="currency-symbol">₹</span> <span id="cartTotal">0</span></span>
+    </div>
+    <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
+  </aside>
+
   <div class="container">
     <header class="main-header">
       <div class="header-top-banner">
@@ -1921,6 +2102,13 @@
 
     const grid = document.getElementById("productGrid");
     const comingSoonView = document.getElementById("comingSoonView");
+    const cartToggleBtn = document.getElementById("cartToggleBtn");
+    const cartCloseBtn = document.getElementById("cartCloseBtn");
+    const cartPanel = document.getElementById("cartPanel");
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartCountEl = document.getElementById("cartCount");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const cartCheckoutBtn = document.getElementById("cartCheckoutBtn");
     const modal = document.getElementById("productModal");
     const modalImage = document.getElementById("modalImage");
     const imageGallery = document.querySelector(".image-gallery");
@@ -1934,6 +2122,7 @@
 
     let currentProduct = null;
     let currentImageIdx = 0;
+    let cartItems = [];
 
     // Create product cards
     products.forEach((product) => {
@@ -1993,9 +2182,7 @@
 
           <div class="card-footer">
             <span class="price card-total-price"><span class="currency-symbol">₹</span> ${product.price}</span>
-            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp card-wa-btn">
-              Order on WhatsApp
-            </a>
+            <button type="button" class="card-add-btn card-add-to-cart">Add to Cart</button>
           </div>
         </div>
       `;
@@ -2009,7 +2196,8 @@
       const decBtn = card.querySelector(".card-qty-dec");
       const incBtn = card.querySelector(".card-qty-inc");
       const priceDisplay = card.querySelector(".card-total-price");
-      const waBtn = card.querySelector(".card-wa-btn");
+      const addBtn = card.querySelector(".card-add-to-cart");
+      let currentOrderData = null;
 
       function updateCardPricingAndWA() {
         let pricePerPack;
@@ -2043,16 +2231,15 @@
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
         const packPieces = packVal * piecesPerPack;
         const packLabel = `${packVal} Pack (${packPieces} pieces)`;
-        const message = `Hello Glenvorix! I would like to order:\n•  Product: Garbage Bag\n•  Size: ${sizeVal}\n•  Pack: ${packLabel}\n•  Quantity: ${currentQty}\n•  Total Price: Rs ${totalPrice}`;
-        waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
-        waBtn.dataset.orderData = JSON.stringify({
+        currentOrderData = {
           product: "Garbage Bag",
           size: sizeVal,
           pack: packLabel,
           quantity: currentQty,
           totalPrice: totalPrice,
-          rawMessage: message
-        });
+          piecesPerPack: piecesPerPack,
+          packValue: packVal
+        };
       }
 
       // Initialize WhatsApp link & pricing
@@ -2134,8 +2321,107 @@
         updateCardPricingAndWA();
       });
 
+      addBtn.addEventListener("click", () => addToCart(currentOrderData));
+
       grid.appendChild(card);
     });
+
+    function addToCart(orderData) {
+      const key = `${orderData.product}-${orderData.size}-${orderData.pack}`;
+      const existingItem = cartItems.find(item => item.key === key);
+
+      if (existingItem) {
+        existingItem.quantity += orderData.quantity;
+        existingItem.totalPrice += orderData.totalPrice;
+      } else {
+        cartItems.push({ ...orderData, key });
+      }
+
+      renderCart();
+    }
+
+    function renderCart() {
+      const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+      cartCountEl.textContent = itemCount;
+      cartTotalEl.textContent = total;
+      cartCheckoutBtn.disabled = cartItems.length === 0;
+
+      if (!cartItems.length) {
+        cartItemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+        return;
+      }
+
+      cartItemsEl.innerHTML = cartItems.map((item, index) => `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.product} - ${item.size}</div>
+            <div class="cart-item-meta">${item.pack} · ${item.piecesPerPack} pieces/pack</div>
+            <div class="cart-item-controls">
+              <button class="cart-qty-btn" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease item quantity">−</button>
+              <span class="cart-qty-value">${item.quantity}</span>
+              <button class="cart-qty-btn" data-cart-action="increase" data-cart-index="${index}" aria-label="Increase item quantity">+</button>
+              <button class="cart-remove-btn" data-cart-action="remove" data-cart-index="${index}" aria-label="Remove item">&times;</button>
+            </div>
+          </div>
+          <span class="cart-item-price"><span class="currency-symbol">₹</span> ${item.totalPrice}</span>
+        </div>
+      `).join("");
+    }
+
+    cartItemsEl.addEventListener("click", (e) => {
+      const control = e.target.closest("[data-cart-action]");
+      if (!control) return;
+      const index = Number(control.dataset.cartIndex);
+      const item = cartItems[index];
+      if (!item) return;
+
+      if (control.dataset.cartAction === "increase") {
+        item.quantity++;
+        item.totalPrice += item.totalPrice / (item.quantity - 1);
+      } else if (control.dataset.cartAction === "decrease") {
+        if (item.quantity > 1) {
+          item.totalPrice -= item.totalPrice / item.quantity;
+          item.quantity--;
+        }
+      } else {
+        cartItems.splice(index, 1);
+      }
+      renderCart();
+    });
+
+    cartToggleBtn.addEventListener("click", () => {
+      const isOpen = cartPanel.classList.toggle("active");
+      cartToggleBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    cartCloseBtn.addEventListener("click", () => {
+      cartPanel.classList.remove("active");
+      cartToggleBtn.setAttribute("aria-expanded", "false");
+    });
+
+    cartCheckoutBtn.addEventListener("click", () => {
+      if (!cartItems.length) return;
+
+      const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+      const lines = cartItems.map((item, index) =>
+        `${index + 1}. ${item.product} - Size ${item.size} - ${item.pack} - Quantity: ${item.quantity} - Rs ${item.totalPrice}`
+      );
+      const message = `Hello Glenvorix!\n\nI would like to order:\n${lines.join("\n")}\nTotal Price: Rs ${total}`;
+      const orderData = {
+        product: cartItems.map(item => `${item.product} - ${item.size}`).join(", "),
+        size: "Multiple",
+        pack: cartItems.map(item => item.pack).join("; "),
+        quantity: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+        totalPrice: total,
+        rawMessage: message
+      };
+
+      const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+      openContactModal(whatsappUrl, orderData);
+    });
+
+    renderCart();
 
     // Modal functions (Image Lightbox)
     function openProductModal(product, initialImageIdx = 0) {
@@ -2456,20 +2742,6 @@
       if (e.target === contactModalOverlay) closeContactModal();
     });
 
-    // Intercept ALL card WhatsApp buttons to show contact form first
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".card-wa-btn");
-      if (!btn) return;
-      e.preventDefault();
-      e.stopPropagation();
-      let orderData = null;
-      try {
-        orderData = JSON.parse(btn.dataset.orderData || "null");
-      } catch (error) {
-        console.error("Could not read order details:", error);
-      }
-      openContactModal(btn.href, orderData);
-    });
   </script>
 </body>
 </html>
