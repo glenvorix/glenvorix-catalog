@@ -2150,7 +2150,7 @@
           <div class="footer-highlights">
             <span class="highlight-tag">✨ Quality Checked</span>
             <span class="highlight-tag">🏠 Everyday Essentials</span>
-            <span class="highlight-tag">📦 Bulk Packs</span>
+            <span class="highlight-tag">📦 Bulk Rolls</span>
           </div>
         </div>
 
@@ -2385,12 +2385,12 @@
 
           <div class="card-controls">
             <div class="control-group">
-              <label class="control-label">Pack Of</label>
+              <label class="control-label">Rolls</label>
               <select class="card-pack-select">
-                <option value="1">1 Pack (${piecesPerPack} pieces)</option>
-                <option value="3">3 Pack (${piecesPerPack * 3} pieces)</option>
-                <option value="5">5 Pack (${piecesPerPack * 5} pieces)</option>
-                <option value="10">10 Pack (${piecesPerPack * 10} pieces)</option>
+                <option value="1">1 Roll (${piecesPerPack} pieces)</option>
+                <option value="3">3 Rolls (${piecesPerPack * 3} pieces)</option>
+                <option value="5">5 Rolls (${piecesPerPack * 5} pieces)</option>
+                <option value="10">10 Rolls (${piecesPerPack * 10} pieces)</option>
               </select>
             </div>
             <div class="control-group">
@@ -2475,7 +2475,7 @@
         
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
         const packPieces = packVal * piecesPerPack;
-        const packLabel = `${packVal} Pack (${packPieces} pieces)`;
+        const packLabel = `${packVal} ${packVal === 1 ? "Roll" : "Rolls"} (${packPieces} pieces)`;
         currentOrderData = {
           product: "Garbage Bag",
           size: sizeVal,
@@ -2615,7 +2615,7 @@
         <div class="cart-item">
           <div class="cart-item-info">
             <div class="cart-item-name">${item.product} - ${item.size}</div>
-            <div class="cart-item-meta">${item.pack} · ${item.piecesPerPack} pieces/pack</div>
+            <div class="cart-item-meta">${item.pack} · ${item.piecesPerPack} pieces/roll</div>
             <div class="cart-item-controls">
               <button class="cart-qty-btn" data-cart-action="decrease" data-cart-index="${index}" aria-label="Decrease item quantity">−</button>
               <span class="cart-qty-value">${item.quantity}</span>
@@ -2667,8 +2667,12 @@
         `${index + 1}. ${item.product} - Size ${item.size} - ${item.pack} - Quantity: ${item.quantity} - Rs ${item.totalPrice}`
       );
       const message = `Hello Glenvorix!\n\nI have placed an order through your website.\n${lines.join("\n")}\n\nTotal Price: Rs ${total}\n\nKindly share the payment URL or UPI details so I can complete the payment.\nThank you!`;
+      const piecesBySize = cartItems.reduce((sizes, item) => {
+        sizes[item.size] = (sizes[item.size] || 0) + (item.packValue * item.quantity);
+        return sizes;
+      }, {});
       const orderData = {
-        product: cartItems.map(item => `Size ${item.size} - ${item.pack.replace(/\s*\([^)]*\)/, "")}`).join("\n"),
+        product: Object.entries(piecesBySize).map(([size, pieces]) => `Size ${size} - ${pieces} piece`).join("\n"),
         quantity: cartItems.reduce((sum, item) => sum + item.quantity, 0),
         totalPacksOrdered: cartItems.reduce((sum, item) => sum + (item.packValue * item.quantity), 0),
         totalPrice: total,
