@@ -760,13 +760,30 @@
       font-size: 1.1rem;
     }
 
-    .cart-close-btn,
+    .cart-close-btn {
+      border: 1px solid #fca5a5;
+      background: #fef2f2;
+      color: #dc2626;
+      cursor: pointer;
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      font-size: 1.35rem;
+      line-height: 1;
+      transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+
     .cart-remove-btn {
       border: none;
       background: transparent;
       color: #64748b;
       cursor: pointer;
       padding: 0.2rem;
+    }
+
+    .cart-close-btn:hover {
+      border-color: #dc2626;
+      background: #dc2626;
+      color: white;
     }
 
     .cart-remove-btn {
@@ -2020,7 +2037,7 @@
 
       <div class="sidebar-info-card">
         <h4>🛡️ Premium Assurance</h4>
-        <p>Strong, dependable bags made for clean and easy waste disposal.</p>
+        <p>Reliable everyday essentials selected for homes, offices, and businesses.</p>
       </div>
     </div>
 
@@ -2064,7 +2081,7 @@
       <div class="header-top-banner">
         <span class="badge-pill">✨ Official Catalog</span>
         <span class="banner-divider">•</span>
-        <span class="banner-highlight">Extra Strong Heavy Duty Bags</span>
+        <span class="banner-highlight">Everyday Essentials for Modern Living</span>
       </div>
 
       <div class="header-main-content">
@@ -2100,11 +2117,11 @@
       <div class="header-features">
         <div class="feature-item">
           <span class="feature-icon">🛡️</span>
-            <span>Strong & Durable Bags</span>
+            <span>Reliable Quality</span>
         </div>
         <div class="feature-item">
-          <span class="feature-icon">💧</span>
-          <span>Built for Daily Use</span>
+          <span class="feature-icon">🏠</span>
+          <span>Made for Daily Life</span>
         </div>
         <div class="feature-item">
           <span class="feature-icon">⚡</span>
@@ -2128,11 +2145,11 @@
             <span class="footer-brand-title">GLENVORIX</span>
           </div>
           <p class="footer-desc">
-            Where Everyday Essentials Meet Modern Living. Providing heavy-duty and tear-resistant bags designed for homes, offices, and commercial establishments.
+            Where Everyday Essentials Meet Modern Living. Thoughtfully selected products for homes, offices, and commercial establishments.
           </p>
           <div class="footer-highlights">
-            <span class="highlight-tag">🌿 Eco-Friendly</span>
-            <span class="highlight-tag">🛡️ Tear-Resistant</span>
+            <span class="highlight-tag">✨ Quality Checked</span>
+            <span class="highlight-tag">🏠 Everyday Essentials</span>
             <span class="highlight-tag">📦 Bulk Packs</span>
           </div>
         </div>
@@ -2649,7 +2666,7 @@
       const lines = cartItems.map((item, index) =>
         `${index + 1}. ${item.product} - Size ${item.size} - ${item.pack} - Quantity: ${item.quantity} - Rs ${item.totalPrice}`
       );
-      const message = `Hello Glenvorix!\n\nI would like to order:\n${lines.join("\n")}\nTotal Price: Rs ${total}`;
+      const message = `Hello Glenvorix!\n\nI have placed an order through your website.\n${lines.join("\n")}\n\nTotal Price: Rs ${total}\n\nKindly share the payment URL or UPI details so I can complete the payment.\nThank you!`;
       const orderData = {
         product: cartItems.map(item => `Size ${item.size} - ${item.pack.replace(/\s*\([^)]*\)/, "")}`).join("\n"),
         quantity: cartItems.reduce((sum, item) => sum + item.quantity, 0),
