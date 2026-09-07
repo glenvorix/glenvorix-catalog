@@ -890,6 +890,24 @@
       cursor: pointer;
     }
 
+    .cart-checkout-btn:disabled {
+      background: #cbd5e1;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    .cart-minimum-warning {
+      color: #b45309;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 7px;
+      padding: 0.55rem 0.7rem;
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
     /* Modal Styles (Lightbox for Images) */
     .modal {
       display: none;
@@ -2074,6 +2092,7 @@
       <span><span class="currency-symbol">₹</span> <span id="cartTotal">0</span></span>
     </div>
     <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
+    <p class="cart-minimum-warning" id="cartMinimumWarning" hidden>Minimum cart value is ₹100 to proceed to checkout.</p>
   </aside>
 
   <div class="container">
@@ -2260,6 +2279,7 @@
 
   <script>
     const WHATSAPP_PHONE = "+919180250575";
+    const MINIMUM_CART_VALUE = 100;
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyOnem4Sw7A_wVW8T7pxmpSpxVOmoWehgTOr8szZ60wloJU9o_j7SYFWT6h5SN-D7HR/exec";
 
     const products = [
@@ -2335,6 +2355,7 @@
     const cartCountEl = document.getElementById("cartCount");
     const cartTotalEl = document.getElementById("cartTotal");
     const cartCheckoutBtn = document.getElementById("cartCheckoutBtn");
+    const cartMinimumWarning = document.getElementById("cartMinimumWarning");
     const cartToast = document.getElementById("cartToast");
     const cartToastMessage = document.getElementById("cartToastMessage");
     const modal = document.getElementById("productModal");
@@ -2610,7 +2631,9 @@
       const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
       cartCountEl.textContent = itemCount;
       cartTotalEl.textContent = total;
-      cartCheckoutBtn.disabled = cartItems.length === 0;
+      const belowMinimum = total < MINIMUM_CART_VALUE;
+      cartCheckoutBtn.disabled = cartItems.length === 0 || belowMinimum;
+      cartMinimumWarning.hidden = !cartItems.length || !belowMinimum;
 
       if (!cartItems.length) {
         cartItemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
@@ -2669,6 +2692,7 @@
       if (!cartItems.length) return;
 
       const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+      if (total < MINIMUM_CART_VALUE) return;
       const lines = cartItems.map((item, index) =>
         `${index + 1}. ${item.product} - Size ${item.size} - ${item.pack} - Quantity: ${item.quantity} - Rs ${item.totalPrice}`
       );
