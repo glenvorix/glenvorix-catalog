@@ -667,6 +667,59 @@
       transform: translateY(-2px);
     }
 
+    .cart-toast {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      width: min(360px, calc(100vw - 2rem));
+      padding: 0.9rem 1rem;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      background: #f0fdf4;
+      color: #166534;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+      font-size: 0.9rem;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-12px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .cart-toast.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cart-toast-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .cart-toast-message {
+      min-width: 0;
+    }
+
+    @media (max-width: 520px) {
+      .cart-toast {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: calc(100vw - 1.5rem);
+      }
+    }
+
     .cart-panel {
       position: fixed;
       right: 1.25rem;
@@ -1988,6 +2041,11 @@
     🛒 Cart (<span id="cartCount">0</span>)
   </button>
 
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="cart-toast-icon" aria-hidden="true">✓</span>
+    <span class="cart-toast-message" id="cartToastMessage"></span>
+  </div>
+
   <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart">
     <div class="cart-header">
       <h3>Your Cart</h3>
@@ -2185,7 +2243,7 @@
 
   <script>
     const WHATSAPP_PHONE = "+919180250575";
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxHaiZsRFNty4LKHc4Sm10SsRVgIVmBGCRp_VgBayALCtVWf6UjrCa3dyIhC-Mzx_kQ/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyOnem4Sw7A_wVW8T7pxmpSpxVOmoWehgTOr8szZ60wloJU9o_j7SYFWT6h5SN-D7HR/exec";
 
     const products = [
       {
@@ -2254,6 +2312,8 @@
     const cartCountEl = document.getElementById("cartCount");
     const cartTotalEl = document.getElementById("cartTotal");
     const cartCheckoutBtn = document.getElementById("cartCheckoutBtn");
+    const cartToast = document.getElementById("cartToast");
+    const cartToastMessage = document.getElementById("cartToastMessage");
     const modal = document.getElementById("productModal");
     const modalImage = document.getElementById("modalImage");
     const imageGallery = document.querySelector(".image-gallery");
@@ -2268,6 +2328,7 @@
     let currentProduct = null;
     let currentImageIdx = 0;
     let cartItems = [];
+    let cartToastTimer = null;
 
     // Create product cards
     products.forEach((product) => {
@@ -2496,6 +2557,7 @@
     function addToCart(orderData) {
       const key = `${orderData.product}-${orderData.size}-${orderData.pack}`;
       const existingItem = cartItems.find(item => item.key === key);
+      const wasUpdated = Boolean(existingItem);
 
       if (existingItem) {
         existingItem.quantity += orderData.quantity;
@@ -2505,6 +2567,19 @@
       }
 
       renderCart();
+      showCartToast(
+        wasUpdated ? "Cart updated" : "Added to cart",
+        `${orderData.size} · ${orderData.pack} · ${cartItems.reduce((sum, item) => sum + item.quantity, 0)} item(s) in cart`
+      );
+    }
+
+    function showCartToast(title, details) {
+      window.clearTimeout(cartToastTimer);
+      cartToastMessage.textContent = `${title} · ${details}`;
+      cartToast.classList.add("active");
+      cartToastTimer = window.setTimeout(() => {
+        cartToast.classList.remove("active");
+      }, 3200);
     }
 
     function renderCart() {
@@ -2576,10 +2651,9 @@
       );
       const message = `Hello Glenvorix!\n\nI would like to order:\n${lines.join("\n")}\nTotal Price: Rs ${total}`;
       const orderData = {
-        product: cartItems.map(item => `${item.product} - ${item.size}`).join(", "),
-        size: "Multiple",
-        pack: cartItems.map(item => item.pack).join("; "),
+        product: cartItems.map(item => `Size ${item.size} - ${item.pack.replace(/\s*\([^)]*\)/, "")}`).join("\n"),
         quantity: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+        totalPacksOrdered: cartItems.reduce((sum, item) => sum + (item.packValue * item.quantity), 0),
         totalPrice: total,
         rawMessage: message
       };
@@ -2893,9 +2967,8 @@
             phone: phone,
             address: address,
             product: pendingOrderData?.product || "",
-            size: pendingOrderData?.size || "",
-            pack: pendingOrderData?.pack || "",
             quantity: pendingOrderData?.quantity || "",
+            totalPacksOrdered: pendingOrderData?.totalPacksOrdered || "",
             totalPrice: pendingOrderData?.totalPrice || "",
             rawMessage: pendingOrderData?.rawMessage || ""
           };
