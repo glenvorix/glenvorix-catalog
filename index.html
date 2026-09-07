@@ -2269,6 +2269,7 @@
         category: "Garbage Bag",
         specification: "Dimension: 17*19 Inch",
         price: 39,
+        capacity: "5-7 Litres",
         images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
       },
       {
@@ -2277,6 +2278,7 @@
         category: "Garbage Bag",
         specification: "Dimension: 19*21 Inch",
         price: 49,
+        capacity: "10-15 Litres",
         images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
       },
       {
@@ -2286,6 +2288,7 @@
         specification: "Dimension: 24*32 Inch",
         price: 59,
         thickness: 6,
+        capacity: "15-20 Litres",
         images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
       },
       {
@@ -2295,6 +2298,7 @@
         specification: "Dimension: 17*19 Inch",
         price: 39,
         thickness: 8,
+        capacity: "5-7 Litres",
         outOfStock: true,
         images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
       },
@@ -2305,6 +2309,7 @@
         specification: "Dimension: 19*21 Inch",
         price: 49,
         thickness: 8,
+        capacity: "10-15 Litres",
         outOfStock: true,
         images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
       },
@@ -2315,6 +2320,7 @@
         specification: "Dimension: 24*32 Inch",
         price: 59,
         thickness: 8,
+        capacity: "15-20 Litres",
         outOfStock: true,
         images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
       }
@@ -2381,7 +2387,7 @@
         </div>
         <div class="card-body">
           <div class="card-title">${product.name}${product.outOfStock ? '<span class="stock-badge">Out of Stock</span>' : ''}</div>
-          <div class="card-desc">${product.specification}<br />Thickness: ${product.thickness || 6} Micron</div>
+          <div class="card-desc">${product.specification}<br />Capacity: ${product.capacity}<br />Thickness: ${product.thickness || 6} Micron</div>
 
           <div class="card-controls">
             <div class="control-group">
