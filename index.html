@@ -120,6 +120,81 @@
       color: #374151;
     }
 
+    .launch-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 0 0 1.1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.96), rgba(255,247,237,0.92));
+      border: 2px solid rgba(249, 115, 22, 0.85);
+      color: #0f172a;
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.2), 0 18px 24px rgba(249, 115, 22, 0.12), 0 0 18px rgba(249, 115, 22, 0.18);
+      animation: orbPulse 1s ease-in-out infinite;
+    }
+
+    .launch-banner::before {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 18px;
+      background: radial-gradient(circle, rgba(249,115,22,0.32), rgba(249,115,22,0.08), transparent 65%);
+      animation: orbHalo 1s ease-in-out infinite;
+    }
+
+    .launch-banner::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.7);
+      opacity: 0.9;
+      animation: innerGlow 1s ease-in-out infinite;
+    }
+
+    .launch-banner .launch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fb923c 0%, #f97316 45%, #dc2626 100%);
+      box-shadow: 0 0 12px rgba(249, 115, 22, 0.8), 0 0 24px rgba(249, 115, 22, 0.5);
+      animation: orbDot 0.9s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .launch-banner span:last-child {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes orbPulse {
+      0%, 100% { transform: translateY(0) scale(1); border-color: rgba(249, 115, 22, 0.85); }
+      50% { transform: translateY(-1px) scale(1.01); border-color: rgba(239, 68, 68, 0.95); }
+    }
+
+    @keyframes orbHalo {
+      0%, 100% { opacity: 0.3; transform: scale(0.96); }
+      50% { opacity: 1; transform: scale(1.06); }
+    }
+
+    @keyframes innerGlow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes orbDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.9; }
+    }
+
     .header-main-content {
       display: flex;
       justify-content: space-between;
@@ -2148,6 +2223,11 @@
         </div>
       </div>
     </header>
+
+    <div class="launch-banner" aria-live="polite">
+      <span class="launch-dot" aria-hidden="true"></span>
+      <span>New items are coming soon — stay tuned</span>
+    </div>
 
     <div class="grid" id="productGrid"></div>
     <section class="coming-soon-view" id="comingSoonView" aria-live="polite">
