@@ -519,7 +519,7 @@
 
     .card-controls {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1.2fr) minmax(90px, 0.8fr);
       gap: 0.75rem;
       margin-bottom: 1.35rem;
       background-color: #f8fbfc;
@@ -527,12 +527,14 @@
       border-radius: 12px;
       border: 1px solid #dce8ed;
       box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.025);
+      min-width: 0;
     }
 
     .control-group {
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
+      min-width: 0;
     }
 
     .control-label {
@@ -1895,9 +1897,11 @@
       }
 
       .header-top-banner {
-        justify-content: center;
-        text-align: center;
-        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .brand-badge {
+        display: none;
       }
 
       .header-main-content {
@@ -1937,10 +1941,7 @@
       }
 
       .header-features {
-        justify-content: center;
-        gap: 0.75rem;
-        margin-top: 1rem;
-        padding-top: 0.75rem;
+        display: none;
       }
 
       .feature-item {
@@ -1948,8 +1949,77 @@
       }
 
       .grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.55rem;
+      }
+
+      .card-body {
+        padding: 0.5rem;
+      }
+
+      .card-title {
+        font-size: 0.78rem;
+      }
+
+      .card-desc {
+        font-size: 0.62rem;
+        margin-bottom: 0.42rem;
+        line-height: 1.4;
+      }
+
+      .card-controls {
+        gap: 0.32rem;
+        grid-template-columns: 1fr;
+        padding: 0.52rem;
+        margin-bottom: 0.7rem;
+      }
+
+      .control-group {
+        width: 100%;
+      }
+
+      .control-label {
+        font-size: 0.52rem;
+      }
+
+      .card-pack-select {
+        min-width: 0;
+        width: 100%;
+        font-size: 0.58rem;
+        padding: 0.3rem 0.24rem;
+        height: 32px;
+      }
+
+      .card-qty-controls {
+        width: 100%;
+        gap: 0.18rem;
+        height: 32px;
+      }
+
+      .card-qty-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 0.68rem;
+        flex-shrink: 0;
+      }
+
+      .card-qty-val {
+        font-size: 0.66rem;
+        min-width: 0;
+      }
+
+      .card-footer {
+        gap: 0.4rem;
+        align-items: center;
+      }
+
+      .price {
+        font-size: 0.8rem;
+      }
+
+      .card-add-btn {
+        padding: 0.42rem 0.52rem;
+        font-size: 0.62rem;
       }
 
       .modal {
@@ -1997,17 +2067,18 @@
       }
 
       .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.55rem;
       }
 
       .card-body {
-        padding: 1rem;
+        padding: 0.62rem;
       }
 
       .card-pack-select {
         min-width: 0;
         padding: 0 0.3rem;
-        font-size: 0.72rem;
+        font-size: 0.62rem;
       }
 
       .contact-form-group select {
@@ -2338,7 +2409,6 @@
           <span class="address-field-error" id="flatError">Flat number is required.</span>
           <select class="address-field" id="contactBuilding" autocomplete="address-line2" required>
             <option value="" selected disabled>Select society / building</option>
-            <option value="Sandeep Vihar">Sandeep Vihar</option>
             <option value="Assetz Marq">Assetz Marq</option>
             <option value="Sumadhura Eden Garden">Sumadhura Eden Garden</option>
           </select>
@@ -2360,6 +2430,7 @@
 
   <script>
     const WHATSAPP_PHONE = "+919180250575";
+    const UPI_ID = " 7259880169-2@ybl";
     const MINIMUM_CART_VALUE = 100;
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyOnem4Sw7A_wVW8T7pxmpSpxVOmoWehgTOr8szZ60wloJU9o_j7SYFWT6h5SN-D7HR/exec";
 
@@ -2488,7 +2559,7 @@
           ` : ''}
         </div>
         <div class="card-body">
-          <div class="card-title">${product.name}${product.outOfStock ? '<span class="stock-badge">Out of Stock</span>' : ''}</div>
+          <div class="card-title">${product.name}</div>
           <div class="card-desc">${product.specification}<br />Capacity: ${product.capacity}<br />Thickness: ${product.thickness || 6} Micron</div>
 
           <div class="card-controls">
