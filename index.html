@@ -354,8 +354,10 @@
     /* Product Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      justify-content: center;
+      align-items: stretch;
     }
 
     .coming-soon-view {
@@ -394,6 +396,9 @@
       flex-direction: column;
       box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+      max-width: 320px;
+      justify-self: center;
     }
 
     .card:hover {
@@ -526,6 +531,10 @@
       border: 1px solid #dce8ed;
       box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.025);
       min-width: 0;
+    }
+
+    .card-controls.quantity-only {
+      grid-template-columns: 1fr;
     }
 
     .control-group {
@@ -1482,34 +1491,44 @@
     }
 
     .sidebar-section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 0.6rem;
+      display: none;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0.4), rgba(148, 163, 184, 0.12), rgba(148, 163, 184, 0.4));
+      margin: 0.35rem 0 0.75rem;
     }
 
     .sidebar-menu-list {
       list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
+    }
+
+    .sidebar-menu-list .sidebar-menu-list {
+      margin-left: 0.9rem;
+      margin-top: 0.3rem;
+      gap: 0.25rem;
     }
 
     .sidebar-menu-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.65rem 0.85rem;
-      border-radius: 8px;
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
       color: #334155;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       cursor: pointer;
-      transition: all 0.2s;
       border: 1px solid transparent;
+      transition: all 0.2s ease;
     }
 
     .sidebar-menu-item:hover {
@@ -1612,29 +1631,114 @@
     }
 
     .sidebar-footer {
-      padding: 1.25rem 1.5rem;
-      border-top: 1px solid var(--border);
+      padding: 0.9rem 1.25rem;
+      border-top: none;
       background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
-    .btn-sidebar-wa {
-      width: 100%;
+    .footer-action {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      width: 74px;
+      min-height: 90px;
+      padding: 0.2rem 0.25rem;
+      background: transparent;
+      color: #1f2937;
+      text-decoration: none;
+      border-radius: 14px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .footer-action:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .footer-action-icon {
+      width: 46px;
+      height: 46px;
+      display: block;
+      background: white;
+      border: 2px solid #25D366;
+      border-radius: 50%;
+      padding: 7px;
+      box-sizing: border-box;
+      filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.12));
+    }
+
+    .footer-action-label {
+      font-size: 0.58rem;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-align: center;
+      color: #1f2937;
+    }
+
+    .footer-action--home {
+      width: auto;
+      min-height: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      gap: 0.2rem;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .footer-action--home .footer-action-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      font-size: 1.5rem;
+      line-height: 1;
+      filter: none;
+      color: #0056b3;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      background-color: var(--primary);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      transition: background-color 0.2s;
     }
 
-    .btn-sidebar-wa:hover {
-      background-color: var(--primary-dark);
+    .footer-action--home .footer-action-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .footer-action--home .footer-action-label {
+      color: #0056b3;
+      font-size: 0.58rem;
+      line-height: 1.1;
+    }
+
+    .footer-action--wa {
+      width: auto;
+      min-height: 0;
+      gap: 0.25rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2ddf75 0%, #1ebf61 100%);
+      box-shadow: 0 8px 18px rgba(37, 211, 102, 0.22);
+    }
+
+    .footer-action--wa .footer-action-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     /* Floating Side Menu Button */
@@ -1687,8 +1791,8 @@
 
     .footer-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-      gap: 2.5rem;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr) minmax(180px, 0.6fr);
+      gap: 2rem;
       margin-bottom: 2.5rem;
     }
 
@@ -1887,7 +1991,6 @@
       }
       body {
         padding: 1rem 0.75rem 2rem;
-      }
 
       .main-header {
         padding: 1.25rem 1rem 1rem;
@@ -2153,21 +2256,25 @@
 
     <div class="sidebar-body">
       <div>
-        <div class="sidebar-section-title">Navigation</div>
         <ul class="sidebar-menu-list">
           <li>
             <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="homeKitchenSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="homeKitchenSubmenu">
               <span class="sidebar-item-left"><span class="menu-icon">🏠</span><span>Home &amp; Kitchen</span></span>
             </div>
-            <ul class="sidebar-menu-list sidebar-submenu collapsed" id="homeKitchenSubmenu" style="margin-left: 20px;">
+            <ul class="sidebar-menu-list sidebar-submenu collapsed" id="homeKitchenSubmenu" style="margin-left: 12px;">
               <li>
-                <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="wasteRecyclingSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="wasteRecyclingSubmenu" style="margin-top: 10px;">
+                <div class="sidebar-menu-item sidebar-menu-parent" data-menu-toggle="wasteRecyclingSubmenu" role="button" tabindex="0" aria-expanded="false" aria-controls="wasteRecyclingSubmenu" style="margin-top: 6px;">
                   <span class="sidebar-item-left"><span class="menu-icon">♻️</span><span>Waste &amp; Recycling</span></span>
                 </div>
-                <ul class="sidebar-menu-list sidebar-submenu collapsed" id="wasteRecyclingSubmenu">
+                <ul class="sidebar-menu-list sidebar-submenu collapsed" id="wasteRecyclingSubmenu" style="margin-left: 12px;">
                   <li>
                     <a class="sidebar-menu-item" data-filter="Garbage Bag">
                       <span class="sidebar-item-left"><span class="menu-icon">🗑️</span><span>Garbage Bags</span></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="sidebar-menu-item" data-filter="Facial Tissue">
+                      <span class="sidebar-item-left"><span class="menu-icon">🧻</span><span>Facial Tissue</span></span>
                     </a>
                   </li>
                 </ul>
@@ -2175,19 +2282,16 @@
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
                   <span class="sidebar-item-left"><span class="menu-icon">🧺</span><span>Kitchen Storage</span></span>
-                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
                   <span class="sidebar-item-left"><span class="menu-icon">🧽</span><span>Cleaning Essentials</span></span>
-                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
               <li>
                 <div class="sidebar-menu-item sidebar-coming-soon" data-coming-soon role="button" tabindex="0">
                   <span class="sidebar-item-left"><span class="menu-icon">🗂️</span><span>Home Organization</span></span>
-                  <span class="coming-soon-label">Stay tuned! Coming soon</span>
                 </div>
               </li>
             </ul>
@@ -2217,20 +2321,24 @@
         </ul>
       </div>
 
-      <div class="sidebar-info-card">
-        <h4>🛡️ Premium Assurance</h4>
-        <p>Reliable everyday essentials selected for homes, offices, and businesses.</p>
-      </div>
     </div>
 
     <div class="sidebar-footer">
-      <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20would%20like%20to%20chat%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="btn-sidebar-wa">
-        💬 Chat on WhatsApp
+      <button class="footer-action footer-action--home" type="button" aria-label="Home" data-filter="all">
+        <span class="footer-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5Z" fill="currentColor"></path>
+          </svg>
+        </span>
+        <span class="footer-action-label">Home</span>
+      </button>
+
+      <a href="https://wa.me/+919180250575?text=Hello%20Glenvorix!%20I%20would%20like%20to%20chat%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="footer-action footer-action--wa" aria-label="Chat on WhatsApp">
+        <span class="footer-action-label">Chat on WhatsApp</span>
       </a>
     </div>
   </aside>
 
-  <!-- Floating Side Menu Button -->
   <button class="floating-menu-btn" id="menuToggleBtn" aria-label="Open Navigation Menu">
     <span class="hamburger-icon">☰</span>
     <span>Menu</span>
@@ -2454,7 +2562,7 @@
         specification: "Dimension: 17*19 Inch",
         price: 39,
         capacity: "5-7 Litres",
-        images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
+        images: ["images/GarbageBags/small/1.jpeg", "images/GarbageBags/small/2.jpeg", "images/GarbageBags/small/3.jpeg", "images/GarbageBags/small/4.jpeg"]
       },
       {
         id: 2,
@@ -2463,7 +2571,7 @@
         specification: "Dimension: 19*21 Inch",
         price: 49,
         capacity: "10-15 Litres",
-        images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
+        images: ["images/GarbageBags/medium/1.jpeg", "images/GarbageBags/medium/2.jpeg", "images/GarbageBags/medium/3.jpeg", "images/GarbageBags/medium/4.jpeg"]
       },
       {
         id: 3,
@@ -2473,7 +2581,7 @@
         price: 59,
         thickness: 6,
         capacity: "15-20 Litres",
-        images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
+        images: ["images/GarbageBags/large/1.jpeg", "images/GarbageBags/large/2.jpeg", "images/GarbageBags/large/3.jpeg", "images/GarbageBags/large/4.jpeg"]
       },
       {
         id: 4,
@@ -2484,7 +2592,7 @@
         thickness: 8,
         capacity: "5-7 Litres",
         outOfStock: true,
-        images: ["images/small/1.jpeg", "images/small/2.jpeg", "images/small/3.jpeg", "images/small/4.jpeg"]
+        images: ["images/GarbageBags/small/1.jpeg", "images/GarbageBags/small/2.jpeg", "images/GarbageBags/small/3.jpeg", "images/GarbageBags/small/4.jpeg"]
       },
       {
         id: 5,
@@ -2495,7 +2603,7 @@
         thickness: 8,
         capacity: "10-15 Litres",
         outOfStock: true,
-        images: ["images/medium/1.jpeg", "images/medium/2.jpeg", "images/medium/3.jpeg", "images/medium/4.jpeg"]
+        images: ["images/GarbageBags/medium/1.jpeg", "images/GarbageBags/medium/2.jpeg", "images/GarbageBags/medium/3.jpeg", "images/GarbageBags/medium/4.jpeg"]
       },
       {
         id: 6,
@@ -2506,7 +2614,17 @@
         thickness: 8,
         capacity: "15-20 Litres",
         outOfStock: true,
-        images: ["images/large/1.jpeg", "images/large/2.jpeg", "images/large/3.jpeg", "images/large/4.jpeg"]
+        images: ["images/GarbageBags/large/1.jpeg", "images/GarbageBags/large/2.jpeg", "images/GarbageBags/large/3.jpeg", "images/GarbageBags/large/4.jpeg"]
+      },
+      {
+        id: 7,
+        name: "Facial Tissue",
+        category: "Facial Tissue",
+        specification: "Ultra Premium (3 Ply, 100 Pulls)",
+        price: 75,
+        capacity: "100 Pulls",
+        quantityOnly: true,
+        images: ["images/Facial Tissue/facial tissue.jpeg", "images/Facial Tissue/face_tissue.jpeg"]
       }
     ];
 
@@ -2561,6 +2679,8 @@
         `;
       }
 
+      const quantityOnly = Boolean(product.quantityOnly);
+
       card.innerHTML = `
         <div class="card-media">
           <img src="${product.images[0]}" alt="${product.name}" class="card-img" loading="lazy" />
@@ -2572,18 +2692,20 @@
         </div>
         <div class="card-body">
           <div class="card-title">${product.name}</div>
-          <div class="card-desc">${product.specification}<br />Capacity: ${product.capacity}<br />Thickness: ${product.thickness || 6} Micron</div>
+          <div class="card-desc">${product.specification}<br />Capacity: ${product.capacity}<br />${quantityOnly ? 'Pack Size: 1 Unit' : `Thickness: ${product.thickness || 6} Micron`}</div>
 
-          <div class="card-controls">
-            <div class="control-group">
-              <label class="control-label">Rolls</label>
-              <select class="card-pack-select">
-                <option value="1">1 Roll (${piecesPerPack} pieces)</option>
-                <option value="3">3 Rolls (${piecesPerPack * 3} pieces)</option>
-                <option value="5">5 Rolls (${piecesPerPack * 5} pieces)</option>
-                <option value="10">10 Rolls (${piecesPerPack * 10} pieces)</option>
-              </select>
-            </div>
+          <div class="card-controls ${quantityOnly ? 'quantity-only' : ''}">
+            ${quantityOnly ? '' : `
+              <div class="control-group">
+                <label class="control-label">Rolls</label>
+                <select class="card-pack-select">
+                  <option value="1">1 Roll (${piecesPerPack} pieces)</option>
+                  <option value="3">3 Rolls (${piecesPerPack * 3} pieces)</option>
+                  <option value="5">5 Rolls (${piecesPerPack * 5} pieces)</option>
+                  <option value="10">10 Rolls (${piecesPerPack * 10} pieces)</option>
+                </select>
+              </div>
+            `}
             <div class="control-group">
               <label class="control-label">Quantity</label>
               <div class="card-qty-controls">
@@ -2614,18 +2736,40 @@
       let currentOrderData = null;
 
       if (product.outOfStock) {
-        packSelect.disabled = true;
+        if (packSelect) packSelect.disabled = true;
         decBtn.disabled = true;
         incBtn.disabled = true;
       }
 
       function updateCardPricingAndWA() {
-        let pricePerPack;
-        const packVal = parseInt(packSelect.value);
+        let pricePerPack = basePrice;
+        let packVal = 1;
+
+        if (packSelect) {
+          packVal = parseInt(packSelect.value);
+        }
 
         if (product.outOfStock) {
           priceDisplay.textContent = "";
           currentOrderData = null;
+          return;
+        }
+
+        if (quantityOnly) {
+          const originalUnitPrice = 150;
+          const saleUnitPrice = 75;
+          const originalTotal = originalUnitPrice * currentQty;
+          const totalPrice = saleUnitPrice * currentQty;
+          priceDisplay.innerHTML = `<span class="original-price"><span class="currency-symbol">₹</span> ${originalTotal}</span><span class="currency-symbol">₹</span> ${totalPrice}`;
+          currentOrderData = {
+            product: product.category,
+            size: product.name,
+            pack: "1 Unit",
+            quantity: currentQty,
+            totalPrice: totalPrice,
+            piecesPerPack: 1,
+            packValue: 1
+          };
           return;
         }
 
@@ -2657,18 +2801,17 @@
           2: { 3: 147, 5: 245, 10: 490 },
           3: { 3: 177, 5: 295, 10: 590 }
         };
-        const originalPackPrice = originalPackPrices[product.id]?.[packVal];
+        const originalPackPrice = originalPackPrices[product.id]?.[packVal] ?? null;
         const originalTotal = originalPackPrice ? originalPackPrice * currentQty : null;
         const originalPriceMarkup = originalTotal
           ? `<span class="original-price"><span class="currency-symbol">₹</span> ${originalTotal}</span>`
           : "";
         priceDisplay.innerHTML = `${originalPriceMarkup}<span class="currency-symbol">₹</span> ${totalPrice}`;
-        
+
         const sizeVal = product.size || product.name.replace(/^Size\s*-\s*/i, '').trim();
-        const packPieces = packVal * piecesPerPack;
-        const packLabel = `${packVal} ${packVal === 1 ? "Roll" : "Rolls"} (${packPieces} pieces)`;
+        const packLabel = `${packVal} ${packVal === 1 ? "Roll" : "Rolls"} (${packVal * piecesPerPack} pieces)`;
         currentOrderData = {
-          product: "Garbage Bag",
+          product: product.category,
           size: sizeVal,
           pack: packLabel,
           quantity: currentQty,
@@ -2737,10 +2880,12 @@
       }
 
       // Pack selector change
-      packSelect.addEventListener("change", () => {
-        selectedPack = parseInt(packSelect.value);
-        updateCardPricingAndWA();
-      });
+      if (packSelect) {
+        packSelect.addEventListener("change", () => {
+          selectedPack = parseInt(packSelect.value);
+          updateCardPricingAndWA();
+        });
+      }
 
       // Quantity buttons
       decBtn.addEventListener("click", () => {
@@ -3012,29 +3157,42 @@
     });
 
     // Sidebar Filter Actions
+    function applySidebarFilter(filter, activeElement = null) {
+      sidebarMenuItems.forEach(i => i.classList.remove("active"));
+      if (activeElement) {
+        activeElement.classList.add("active");
+      }
+      grid.style.display = "grid";
+      comingSoonView.classList.remove("active");
+
+      const cards = grid.querySelectorAll(".card");
+      cards.forEach((card) => {
+        const cardCategory = card.dataset.category;
+        if (filter === "all" || cardCategory === filter) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      closeSidebar();
+      document.getElementById("productGrid").scrollIntoView({ behavior: "smooth" });
+    }
+
     sidebarMenuItems.forEach((item) => {
       item.addEventListener("click", (e) => {
         e.preventDefault();
         const filter = item.getAttribute("data-filter");
-        sidebarMenuItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
-        grid.style.display = "grid";
-        comingSoonView.classList.remove("active");
-
-        const cards = grid.querySelectorAll(".card");
-        cards.forEach((card) => {
-          const cardCategory = card.dataset.category;
-          if (filter === "all" || cardCategory === filter) {
-            card.style.display = "flex";
-          } else {
-            card.style.display = "none";
-          }
-        });
-
-        closeSidebar();
-        document.getElementById("productGrid").scrollIntoView({ behavior: "smooth" });
+        applySidebarFilter(filter, item);
       });
     });
+
+    const footerHomeBtn = document.querySelector(".footer-action--home");
+    if (footerHomeBtn) {
+      footerHomeBtn.addEventListener("click", () => {
+        applySidebarFilter("all");
+      });
+    }
 
     // Close sidebar on links inside drawer
     document.querySelectorAll(".sidebar-menu-list a:not([data-filter])").forEach((link) => {
