@@ -2581,7 +2581,9 @@
             <option value="Assetz Marq">Assetz Marq</option>
             <option value="Sumadhura Eden Garden">Sumadhura Eden Garden</option>
             <option value="Sandeep Vihar">Sandeep Vihar</option>
+            <option value="Other">Other</option>
           </select>
+          <input class="address-field" type="text" id="contactBuildingCustom" placeholder="Enter society / building name" autocomplete="address-line2" style="display:none; margin-top: 0.6rem;" />
           <span class="address-field-error" id="buildingError">Society / Building name is required.</span>
           <input class="address-field" type="text" id="contactArea" placeholder="Area" autocomplete="address-level2" required />
           <span class="address-field-error" id="areaError">Area is required.</span>
@@ -3283,6 +3285,7 @@
     const contactPhoneInput    = document.getElementById("contactPhone");
     const contactFlatInput     = document.getElementById("contactFlat");
     const contactBuildingInput = document.getElementById("contactBuilding");
+    const contactBuildingCustomInput = document.getElementById("contactBuildingCustom");
     const contactAreaInput     = document.getElementById("contactArea");
     const flatError            = document.getElementById("flatError");
     const buildingError        = document.getElementById("buildingError");
@@ -3290,6 +3293,17 @@
 
     let pendingWhatsAppUrl = "";
     let pendingOrderData = null;
+
+    function syncCustomBuildingField() {
+      const isOther = contactBuildingInput.value === "Other";
+      contactBuildingCustomInput.style.display = isOther ? "block" : "none";
+      if (!isOther) {
+        contactBuildingCustomInput.value = "";
+      }
+      if (!isOther) {
+        contactBuildingCustomInput.classList.remove("error");
+      }
+    }
 
     function openContactModal(waUrl, orderData) {
       pendingWhatsAppUrl = waUrl;
@@ -3299,11 +3313,13 @@
       contactPhoneInput.value = "";
       contactFlatInput.value = "";
       contactBuildingInput.value = "";
+      contactBuildingCustomInput.value = "";
+      contactBuildingCustomInput.style.display = "none";
       contactAreaInput.value = "";
       ["grpName","grpPhone","grpAddress"].forEach(id => {
         document.getElementById(id).classList.remove("has-error");
       });
-      [contactNameInput, contactPhoneInput, contactFlatInput, contactBuildingInput, contactAreaInput].forEach(el => el.classList.remove("error"));
+      [contactNameInput, contactPhoneInput, contactFlatInput, contactBuildingInput, contactBuildingCustomInput, contactAreaInput].forEach(el => el.classList.remove("error"));
       [flatError, buildingError, areaError].forEach(el => el.classList.remove("active"));
       contactModalOverlay.classList.add("active");
       document.body.style.overflow = "hidden";
@@ -3323,7 +3339,9 @@
       const name = contactNameInput.value.trim();
       const phone = contactPhoneInput.value.trim();
       const flatAndBuilding = contactFlatInput.value.trim();
-      const building = contactBuildingInput.value.trim();
+      const building = contactBuildingInput.value === "Other"
+        ? contactBuildingCustomInput.value.trim()
+        : contactBuildingInput.value.trim();
       const area = contactAreaInput.value.trim();
 
       // Name
@@ -3359,6 +3377,7 @@
         document.getElementById("grpAddress").classList.add("has-error");
         contactFlatInput.classList.toggle("error", !flatAndBuilding);
         contactBuildingInput.classList.toggle("error", !building);
+        contactBuildingCustomInput.classList.toggle("error", contactBuildingInput.value === "Other" && !building);
         contactAreaInput.classList.toggle("error", !area);
         flatError.classList.toggle("active", !flatAndBuilding);
         buildingError.classList.toggle("active", !building);
@@ -3368,6 +3387,7 @@
         document.getElementById("grpAddress").classList.remove("has-error");
         contactFlatInput.classList.remove("error");
         contactBuildingInput.classList.remove("error");
+        contactBuildingCustomInput.classList.remove("error");
         contactAreaInput.classList.remove("error");
         [flatError, buildingError, areaError].forEach(el => el.classList.remove("active"));
       }
@@ -3375,12 +3395,17 @@
       return valid;
     }
 
+    contactBuildingInput.addEventListener("change", syncCustomBuildingField);
+
     contactContinueBtn.addEventListener("click", async () => {
       if (!validateContactForm()) return;
 
       const name    = contactNameInput.value.trim();
       const phone   = contactPhoneInput.dataset.clean || contactPhoneInput.value.trim();
-      const address = `${contactFlatInput.value.trim()}\n${contactBuildingInput.value.trim()}\n${contactAreaInput.value.trim()}`;
+      const selectedBuilding = contactBuildingInput.value === "Other"
+        ? contactBuildingCustomInput.value.trim()
+        : contactBuildingInput.value.trim();
+      const address = `${contactFlatInput.value.trim()}\n${selectedBuilding}\n${contactAreaInput.value.trim()}`;
 
       // Extract product details from the pending WhatsApp URL (optional but helpful)
       // For a more robust solution, we can store current selection in variables
