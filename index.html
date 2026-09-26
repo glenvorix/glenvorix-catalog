@@ -120,6 +120,111 @@
       color: #374151;
     }
 
+    .amazon-live-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 0.9rem;
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .amazon-live-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      text-align: center;
+      width: 100%;
+      min-width: 0;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.08), rgba(15, 118, 110, 0.05));
+      border: 1px solid rgba(15, 118, 110, 0.18);
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.06);
+    }
+
+    .amazon-live-text {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #7c2d12;
+      line-height: 1.2;
+    }
+
+    .amazon-live-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.38rem;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #0f766e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      animation: amazonHeartbeat 2.2s ease-in-out infinite 0.8s;
+      text-shadow: 0 0 0 rgba(15, 118, 110, 0);
+      white-space: nowrap;
+    }
+
+    .amazon-live-link:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: none;
+      filter: none;
+      opacity: 0.9;
+    }
+
+    @keyframes amazonHeartbeat {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.92;
+      }
+      15% {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+      30%, 45% {
+        transform: scale(1.09);
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1);
+        opacity: 0.96;
+      }
+    }
+
+    .amazon-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .amazon-icon img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
     .launch-banner {
       display: flex;
       align-items: center;
@@ -276,9 +381,17 @@
       letter-spacing: 0.2px;
     }
 
+    .header-actions-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.6rem;
+    }
+
     .header-actions {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 0.75rem;
       flex-wrap: wrap;
     }
@@ -2041,6 +2154,7 @@
       }
       body {
         padding: 1rem 0.75rem 2rem;
+      }
 
       .main-header {
         padding: 1.25rem 1rem 1rem;
@@ -2096,6 +2210,27 @@
         width: 100%;
         justify-content: flex-start;
         gap: 0.45rem;
+      }
+
+      .header-actions-wrapper {
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .amazon-live-banner {
+        width: 100%;
+      }
+
+      .amazon-live-stack {
+        width: 100%;
+        align-items: center;
+        padding: 0.55rem 0.7rem;
+      }
+
+      .amazon-live-text,
+      .amazon-live-link {
+        font-size: 0.64rem;
+        letter-spacing: 0.03em;
       }
 
       .action-chip {
@@ -2439,18 +2574,32 @@
           </div>
         </div>
 
-        <div class="header-actions">
-          <a href="tel:+919180250575" class="action-chip chip-phone" aria-label="Call Glenvorix">
-            <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z"/>
-            </svg>
-            <span>+91-9180250575</span>
-          </a>
-          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=glenvorix@gmail.com" target="_blank" rel="noopener noreferrer" class="action-chip chip-email" aria-label="Email Glenvorix">
-            <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-            </svg>
-            <span>glenvorix@gmail.com</span>
+        <div class="header-actions-wrapper">
+          <div class="header-actions">
+            <a href="tel:+919180250575" class="action-chip chip-phone" aria-label="Call Glenvorix">
+              <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z"/>
+              </svg>
+              <span>+91-9180250575</span>
+            </a>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=glenvorix@gmail.com" target="_blank" rel="noopener noreferrer" class="action-chip chip-email" aria-label="Email Glenvorix">
+              <svg class="chip-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <span>glenvorix@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="amazon-live-banner" aria-label="Amazon live announcement">
+        <div class="amazon-live-stack">
+          <span class="amazon-live-text">We are live on Amazon now</span>
+          <a href="https://www.amazon.in/dp/B0HKVNRMNB/ref=sr_1_6?crid=1893J0NGDXJ7E&dib=eyJ2IjoiMSJ9.hPxMEzxzpG4lwch4IrsXqvPW86NJYT7uyHWNYM8Psuv1XcrOAT1Z-zMFQW5xEEFDu5VtHB4shtpU4mJZY9VfoN30zHHg_u2B2jfo8iT2JfuzqTB4LipgYumEq3al0eTN9PWLX5RNMs3o1gGBgi7MqMJaRsbu3rGLC9DXPeFS94aIEzn8Ffynn0oT8AntoKQlf2Bc_y5I4eXukgDU2cnyRuiPjs6dz3hhMBPRrFb9h8-MyJQVHIjKktKgekJqREdyoI2Eniyji4Spdi_AMlfQ6ZI2WyvJAcQsLqO1V5uTC50.Ck-5Gn7i9zxX4Yt7lf5gCI6ASwWjbEq4yl0ojPbmk-Y&dib_tag=se&keywords=glenvorix%2Bgarbage%2Bbag&qid=1790416582&sprefix=glenvorix%2Bgar%2Caps%2C259&sr=8-6&th=1" target="_blank" rel="noopener noreferrer" class="amazon-live-link" aria-label="Shop Glenvorix on Amazon" onclick="if (navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i)) { event.preventDefault(); var amazonAppUrl = 'amzn://details?id=B0HKVNRMNB'; window.location.href = amazonAppUrl; setTimeout(function(){ window.open('https://www.amazon.in/dp/B0HKVNRMNB/ref=sr_1_6?crid=1893J0NGDXJ7E&dib=eyJ2IjoiMSJ9.hPxMEzxzpG4lwch4IrsXqvPW86NJYT7uyHWNYM8Psuv1XcrOAT1Z-zMFQW5xEEFDu5VtHB4shtpU4mJZY9VfoN30zHHg_u2B2jfo8iT2JfuzqTB4LipgYumEq3al0eTN9PWLX5RNMs3o1gGBgi7MqMJaRsbu3rGLC9DXPeFS94aIEzn8Ffynn0oT8AntoKQlf2Bc_y5I4eXukgDU2cnyRuiPjs6dz3hhMBPRrFb9h8-MyJQVHIjKktKgekJqREdyoI2Eniyji4Spdi_AMlfQ6ZI2WyvJAcQsLqO1V5uTC50.Ck-5Gn7i9zxX4Yt7lf5gCI6ASwWjbEq4yl0ojPbmk-Y&dib_tag=se&keywords=glenvorix%2Bgarbage%2Bbag&qid=1790416582&sprefix=glenvorix%2Bgar%2Caps%2C259&sr=8-6&th=1', '_blank', 'noopener,noreferrer'); }, 1200); } return true;">
+            <span class="amazon-icon" aria-hidden="true">
+              <img src="amazon.svg" alt="Amazon" />
+            </span>
+            <span>Click here</span>
           </a>
         </div>
       </div>
