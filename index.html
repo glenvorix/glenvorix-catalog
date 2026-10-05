@@ -2918,7 +2918,7 @@
     // Create product cards
     products.forEach((product) => {
       let currentCardImgIdx = 0;
-      let selectedPack = null;
+      let selectedPack = 1;
       let currentQty = 1;
       const basePrice = typeof product.price === 'number' ? product.price : parseInt(product.price.replace(/[^\d]/g, ''));
       const hasMultipleImages = product.images.length > 1;
@@ -2961,7 +2961,7 @@
               <div class="pack-options" role="radiogroup" aria-label="Select ${quantityOnly ? 'boxes' : 'rolls'}">
                 ${[1, 3, 5, 10].map((packValue, index) => `
                   <label class="pack-option">
-                    <input type="radio" name="pack-${product.id}" value="${packValue}" />
+                    <input type="radio" name="pack-${product.id}" value="${packValue}" ${index === 0 ? 'checked' : ''} />
                     <span class="pack-option-text">${packValue} ${quantityOnly ? (packValue === 1 ? 'Box' : 'Boxes') : (packValue === 1 ? 'Roll' : 'Rolls')}<small>${piecesPerPack * packValue} ${quantityOnly ? 'pulls' : 'pieces'}</small></span>
                   </label>
                 `).join('')}
