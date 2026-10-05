@@ -949,6 +949,36 @@
       transform: translateY(-2px);
     }
 
+    .cart-icon-wrap {
+      position: relative;
+      display: inline-flex;
+      line-height: 1;
+    }
+
+    .cart-count-badge {
+      position: absolute;
+      top: -0.65rem;
+      right: -0.75rem;
+      display: grid;
+      place-items: center;
+      min-width: 1.2rem;
+      height: 1.2rem;
+      padding: 0 0.18rem;
+      box-sizing: border-box;
+      border: 2px solid #0f766e;
+      border-radius: 999px;
+      background: #dc2626;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 2px 5px rgba(127, 29, 29, 0.3);
+    }
+
+    .cart-count-badge[hidden] {
+      display: none;
+    }
+
     .cart-toast {
       position: fixed;
       top: 1.25rem;
@@ -2575,7 +2605,8 @@
   </button>
 
   <button class="cart-toggle-btn" id="cartToggleBtn" aria-expanded="false" aria-controls="cartPanel">
-    🛒 Cart (<span id="cartCount">0</span>)
+    <span class="cart-icon-wrap" aria-hidden="true">🛒<span class="cart-count-badge" id="cartCount" hidden>0</span></span>
+    <span>Cart</span>
   </button>
 
   <div class="cart-toast" id="cartToast" role="status" aria-live="polite" aria-atomic="true">
@@ -3193,7 +3224,6 @@
     function addToCart(orderData) {
       const key = `${orderData.product}-${orderData.size}-${orderData.pack}`;
       const existingItem = cartItems.find(item => item.key === key);
-      const wasUpdated = Boolean(existingItem);
 
       if (existingItem) {
         existingItem.quantity += orderData.quantity;
@@ -3203,15 +3233,12 @@
       }
 
       renderCart();
-      showCartToast(
-        wasUpdated ? "Cart updated" : "Added to cart",
-        `${orderData.size} · ${orderData.pack} · ${cartItems.reduce((sum, item) => sum + item.quantity, 0)} item(s) in cart`
-      );
+      showCartToast(orderData.quantity);
     }
 
-    function showCartToast(title, details) {
+    function showCartToast(quantity) {
       window.clearTimeout(cartToastTimer);
-      cartToastMessage.textContent = `${title} · ${details}`;
+      cartToastMessage.textContent = `${quantity} ${quantity === 1 ? "item" : "items"} added to cart`;
       cartToast.classList.add("active");
       cartToastTimer = window.setTimeout(() => {
         cartToast.classList.remove("active");
@@ -3222,6 +3249,8 @@
       const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
       const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
       cartCountEl.textContent = itemCount;
+      cartCountEl.hidden = itemCount === 0;
+      cartToggleBtn.setAttribute("aria-label", `Shopping cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`);
       cartTotalEl.textContent = total;
       const belowMinimum = total < MINIMUM_CART_VALUE;
       cartCheckoutBtn.disabled = cartItems.length === 0 || belowMinimum;
